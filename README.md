@@ -16,5 +16,8 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 > Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity outside our control are working at ```optimal``` levels.
 
 ## cTREE
-I will be posting the full experimental results post-paper publication. In the meantime, the figure below encapsulates cTREE.
-<p align="center"> <img src="..doc/ctree.svg" width="95%"> </p>
+```
+TODO
+```
+<!-- I will be posting the full experimental results post-paper publication. In the meantime, the figure below encapsulates cTREE. -->
+<!-- <p align="center"> <img src="..doc/ctree.svg" width="95%"> </p> -->
