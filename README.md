@@ -1,8 +1,7 @@
-<h3 align = "center"> cTREE: Code Performance Prediction by Feeding Stylometry Nodes to Regression Models </h3>
-<hr>
+<h2 align = "center"> SARA: Exposing Mediocre Performance Code </h2>
 
 ## Abstract
-> Software development teams establish elaborate Continuous Integration (CI) pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. This paper proposes cTREE, a  CI pipeline-assisted code analysis framework that provides continuous feedback on the performance impact of pending updates. We design performance microbenchmarks by binding the execution time of embedded automated test cases given a code update. We extract and feed numerical statistics and distributional semantic code stylometry to regression models tasked with predicting the execution time of pending updates on the go to provide continuous feedback. Our experiments achieved state-of-the-art performance in predicting the execution time performance of code updates to the software. 
+> Software development teams establish elaborate Continuous Integration (CI) pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. This paper proposes SARA, a  CI pipeline-assisted code analysis framework that provides continuous feedback on the performance impact of pending updates. We design performance microbenchmarks by binding the execution time of embedded automated test cases given a code update. We extract and feed numerical statistics and distributional semantic code stylometry to regression models tasked with predicting the execution time of pending updates on the go to provide continuous feedback. Our experiments achieved state-of-the-art performance in predicting the execution time performance of code updates to the software. 
 
 <hr>
 Artifact Author: Chidera Biringa
@@ -15,7 +14,7 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 
 > Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity outside our control are working at ```optimal``` levels.
 
-## cTREE
+## SARA
 ```
 TODO
 ```
