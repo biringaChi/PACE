@@ -2,7 +2,7 @@ import re
 import numpy as np
 from math import isinf
 from typing import Dict, List, Tuple, Union, Set
-from util import HandleCodeRepo, Sourcecode, FeatureVec
+from repohandle import HandleCodeRepo, Sourcecode, FeatureVec
 
 class Helper(HandleCodeRepo):
     """Code-stylometry feature generator"""

@@ -8,7 +8,7 @@ from gensim.models import Word2Vec
 from gensim.models import KeyedVectors
 from javalang.parser import JavaParserError
 from typing import Dict, List, Sequence, Text, Union, Set
-from util import HandleCodeRepo
+from repohandle import HandleCodeRepo
 
 class TreeEmbeddings(HandleCodeRepo):
 	"""

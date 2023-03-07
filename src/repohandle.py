@@ -1,19 +1,21 @@
 import os
+import pathlib
 import javalang
 import pandas as pd
 from pandas.core.frame import DataFrame
 from javalang.tree import CompilationUnit
 from javalang.parser import JavaSyntaxError
-from typing import Tuple, Dict, List, Sequence, Set, Text, Union, TypeVar
-
-Sourcecode = TypeVar("Sourcecode")
-FeatureVec = TypeVar("FeatureVec")
+from typing import Tuple, Dict, List, Sequence, Set, Text, Union
 
 class HandleCodeRepo:
+	def __init__(self) -> None:
+		self.path = pathlib.Path.cwd()
+		self.h2 = self.path / ""
+
 	@property
 	def _GET_DATA_DIR(self) -> List[str]:
 		datasets = {"AddressBook" : "addressbook.csv", "DSpace" : "dspace.csv"} 
-		return os.path.join("./dataset", datasets.get("DSpace")) # select dataset
+		return os.path.join("./dataset", datasets.get("DSpace"))
 
 	def __str__(self) -> str:
 		return f"{self.__class__.__name__}({self._GET_DATA_DIR})"
@@ -76,7 +78,7 @@ class HandleCodeRepo:
 	def get_hash(self) -> List[str]:
 		return [hash for hash in self.read_data()["hash"]]
 
-	def get_sourcecode(self) -> Sourcecode:
+	def get_sourcecode(self) -> str:
 		return [code for code in self.read_data()["sourcecode"]]
 
 	def get_unit_test(self) -> List[float]:
@@ -88,17 +90,35 @@ class HandleCodeRepo:
 	def get_unit_integration_test(self) -> List[float]:
 		return [code for code in self.read_data()["unit_integration_test"]]
 
-	# def get_trees(self, code) -> Union[Tuple[List[CompilationUnit], Dict[int, str]]]:
 	def get_trees(self, code):
 		trees = []
 		uncompiled_sourcecode = {}
-
 		for idx, sourcecode in enumerate(code):
 			try:
 				trees.append(javalang.parse.parse(sourcecode))
 			except JavaSyntaxError as e:
 				uncompiled_sourcecode[idx] = sourcecode
 				trees.append(None)
-
 		return trees, uncompiled_sourcecode
-		
+
+	def get_project(self, project) -> Tuple[List[str], List[str]]:
+		source_files, source_file_names = [], []
+		for root, _, files in os.walk(project):
+			for file in files:
+				if file.endswith(".java"):
+					temp = os.path.join(root, file)
+					source_file_names.append(pathlib.Path(temp).stem)
+					try:
+						with open(temp, "r") as source_file:
+							source_files.append(source_file.read())
+					except OSError as e:
+						raise e
+		return source_files, source_file_names
+
+	def get_runtime(self, exec_file):
+		try:
+			exec_file: pd.DataFrame = pd.read_csv(exec_file)
+		except FileNotFoundError as e:
+			raise(e)
+			
+			TODO
