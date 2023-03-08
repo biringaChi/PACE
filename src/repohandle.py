@@ -10,7 +10,8 @@ from typing import Tuple, Dict, List, Sequence, Set, Text, Union
 class HandleCodeRepo:
 	def __init__(self) -> None:
 		self.path = pathlib.Path.cwd()
-		self.h2 = self.path / ""
+		print(self.path)
+		# self.h2 = self.path / ""
 
 	@property
 	def _GET_DATA_DIR(self) -> List[str]:
@@ -115,10 +116,11 @@ class HandleCodeRepo:
 						raise e
 		return source_files, source_file_names
 
-	def get_runtime(self, exec_file):
+	def get_runtime(self, runtime):
 		try:
-			exec_file: pd.DataFrame = pd.read_csv(exec_file)
+			runtime: pd.DataFrame = pd.read_csv(runtime)
 		except FileNotFoundError as e:
 			raise(e)
-			
-			TODO
+		file_name = runtime["Test File;Runtime in ms"].apply(lambda x: x.split(";")[0]).apply(lambda x: x.split(".")[-1])
+		runtime_ms = runtime["Test File;Runtime in ms"].apply(lambda x: x.split(";")[1])
+		return pd.DataFrame({"file_name": file_name, "runtime_ms": runtime_ms})
