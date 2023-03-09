@@ -1,4 +1,5 @@
 import os
+import re
 import pathlib
 import javalang
 import pandas as pd
@@ -116,11 +117,15 @@ class HandleCodeRepo:
 						raise e
 		return source_files, source_file_names
 
-	def get_runtime(self, runtime):
-		try:
-			runtime: pd.DataFrame = pd.read_csv(runtime)
-		except FileNotFoundError as e:
-			raise(e)
-		file_name = runtime["Test File;Runtime in ms"].apply(lambda x: x.split(";")[0]).apply(lambda x: x.split(".")[-1])
-		runtime_ms = runtime["Test File;Runtime in ms"].apply(lambda x: x.split(";")[1])
-		return pd.DataFrame({"file_name": file_name, "runtime_ms": runtime_ms})
+	def get_runtime_(self, runtime_path: Union[str, Tuple[str, str]]):
+		runtime: pd.DataFrame = pd.read_csv(runtime_path)
+		file_id = runtime_path.split("/")[-1].lower()
+		if re.search("dubbo|h2", file_id):
+			file_name = runtime["Test File;Runtime in ms"].apply(lambda x: x.split(";")[0]).apply(lambda x: x.split(".")[-1])
+			runtime_ms = runtime["Test File;Runtime in ms"].apply(lambda x: x.split(";")[1])
+			return pd.DataFrame({"file_name": file_name, "runtime_ms": runtime_ms})
+		elif re.search("rdf4j", file_id):
+			return pd.DataFrame({"file_name": runtime["Test case"], "runtime_ms": runtime["Runtime in ms"]})
+		else:
+			runtime: pd.DataFrame = pd.concat([pd.read_csv(runtime_path[0]), pd.read_csv(runtime_path[1])])
+			return pd.DataFrame({"file_name": runtime["Test File"], "runtime_ms": runtime["Runtime in ms"]})

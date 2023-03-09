@@ -122,4 +122,3 @@ class Extractor(Helper):
     
     def get_feature_names(self) -> List[str]:
         return ["EmptyLines", "Codelines", "Space", "Tabs", "Imports", "Comments", "Keywords", "Methods", "Conditionals", "Literals", "Loops", "Nodes"]
-    

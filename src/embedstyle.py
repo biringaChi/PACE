@@ -1,0 +1,3 @@
+class EMBEDSTYLE:
+    pass
+	# TODO
