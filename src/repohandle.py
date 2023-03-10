@@ -33,30 +33,35 @@ class HandleCodeRepo:
 	
 	def node_types(self) -> Union[Dict[str, List[str]], str, List[str]]:
 		return {
-			"declaration" : {
-				"TypeDeclaration", "FieldDeclaration", "MethodDeclaration", 
-				"ConstructorDeclaration", "PackageDeclaration", "ClassDeclaration", 
-				"EnumDeclaration", "InterfaceDeclaration", "AnnotationDeclaration", 
-				"ConstantDeclaration", "VariableDeclaration", "LocalVariableDeclaration",
-				"EnumConstantDeclaration"
-				},
 			"statement" : {
 				"IfStatement", "WhileStatement", "DoStatement",
 				"AssertStatement", "SwitchStatement", "ForStatement",
 				"ContinueStatement", "ReturnStatement", "ThrowStatement",
 				"SynchronizedStatement", "TryStatement", "BreakStatement",
-				"BlockStatement"
+				"BlockStatement", "CatchClause"
 				},
 			"expression" : {
 				"StatementExpression", "TernaryExpression", "LambdaExpression"
 				},
+			
+			"control" : {
+				"ForControl", "EnhancedForControl", 	
+			}, 
+
 			"invocation" : {
 				"SuperConstructorInvocation", "MethodInvocation",  "SuperMethodInvocation",
 				"ExplicitConstructorInvocation"
 				},
+			"declaration" : {
+				"TypeDeclaration", "FieldDeclaration", "MethodDeclaration", 
+				"ConstructorDeclaration", "PackageDeclaration", "ClassDeclaration", 
+				"EnumDeclaration", "InterfaceDeclaration", "AnnotationDeclaration", 
+				"ConstantDeclaration", "VariableDeclaration", "LocalVariableDeclaration",
+				"EnumConstantDeclaration", "VariableDeclarator"
+				},
+
 			"other" : {
-				"ForControl", "EnhancedForControl", "FormalParameter",
-				"AnnotationMethod", "VariableDeclarator", "CatchClause",
+				"FormalParameter", "AnnotationMethod",
 				"BinaryOperation", "MethodReference", "ArraySelector",
 				"SuperMemberReference"
 				},
