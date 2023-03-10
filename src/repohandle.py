@@ -38,32 +38,27 @@ class HandleCodeRepo:
 				"AssertStatement", "SwitchStatement", "ForStatement",
 				"ContinueStatement", "ReturnStatement", "ThrowStatement",
 				"SynchronizedStatement", "TryStatement", "BreakStatement",
-				"BlockStatement", "CatchClause"
+				"BlockStatement", "BinaryOperation", "CatchClause"
 				},
 			"expression" : {
 				"StatementExpression", "TernaryExpression", "LambdaExpression"
 				},
 			
 			"control" : {
-				"ForControl", "EnhancedForControl", 	
-			}, 
+				"ForControl", "EnhancedForControl"
+			},
 
 			"invocation" : {
-				"SuperConstructorInvocation", "MethodInvocation",  "SuperMethodInvocation",
-				"ExplicitConstructorInvocation"
+				"SuperConstructorInvocation", "MethodInvocation",  "SuperMethodInvocation", "SuperMemberReference"
+				"ExplicitConstructorInvocation", "ArraySelector", "AnnotationMethod", "MethodReference"
 				},
+
 			"declaration" : {
 				"TypeDeclaration", "FieldDeclaration", "MethodDeclaration", 
 				"ConstructorDeclaration", "PackageDeclaration", "ClassDeclaration", 
 				"EnumDeclaration", "InterfaceDeclaration", "AnnotationDeclaration", 
 				"ConstantDeclaration", "VariableDeclaration", "LocalVariableDeclaration",
 				"EnumConstantDeclaration", "VariableDeclarator"
-				},
-
-			"other" : {
-				"FormalParameter", "AnnotationMethod",
-				"BinaryOperation", "MethodReference", "ArraySelector",
-				"SuperMemberReference"
 				},
 			}
 
