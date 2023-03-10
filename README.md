@@ -25,19 +25,31 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 
 
 ## Feature Engineering
+This paper leverages domain knowledge in code stylometry for feature engineering. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. Hence, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our FREQSTYLE and EMBEDSTYLE algorithms. FREQSTYLE and EMBEDSTYLE are numerical statistics and distributional semantic representation methods. In FREQSTYLE, we transformed features via frequency distribution, while EMBEDSTYLE constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
+
 ---
-```Taxonomy of Code Stylometry Features (CSF)```
+```Taxonomy of Code Stylometry Features (CSF)``` 
 | Class | Types | Brief Description | 
 | --------------- | --------------- | --------------- |
 | Controls | For, While, EnhancedFor, RecursiveLoop  | Defines the repetition of instructions dependent on the satisfaction of requirements |
 | Conditionals | If, Try, Assert, Continue, Ternary, Lambda, Break, Throw, Switch, Return | Dictates the behavior of a program under explicitly defined conditions |
+| Invocations |Class, Method, Variable, Constructor, SuperConstructor, SuperMethod | Defines the invocation of a program from another program |
 | Declarations-Initialization | Variable, Field, Class, Type, Method, Constant, Constructor, Interface, Package, Annotation  | Declaration-Initialization declares the existence of an entity in memory and assigns a value to that entity |
 --- 
+```{Controls, Conditional}``` $\in$ ```Syntactic``` $\land$ ```{Invocations, Declarations-Initialization}``` $\in$ ```Lexical``` 
 
-FREQSTYLE: Numerical Statistics Representation of CSF
 
-<img src="..doc/freqstyle.png" width="40%"> </p>
+FREQSTYLE: Numerical Statistic Representation of Extracted Code Stylometry Features
+
+<img src="..doc/freqstyle.png" width="50%"> </p>
 
 ```
 $ python -m freqstyle
+```
+EMBEDSTYLE: Distributional Semantic Representation of Extracted Code Stylometry Features
+
+<img src="..doc/embedstyle.png" width="50%"> </p>
+
+```
+$ python -m embedstyle
 ```

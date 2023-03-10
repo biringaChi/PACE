@@ -117,7 +117,7 @@ class HandleCodeRepo:
 						raise e
 		return source_files, source_file_names
 
-	def get_runtime_(self, runtime_path: Union[str, Tuple[str, str]]):
+	def get_runtime(self, runtime_path: Union[str, Tuple[str, str]]):
 		runtime: pd.DataFrame = pd.read_csv(runtime_path)
 		file_id = runtime_path.split("/")[-1].lower()
 		if re.search("dubbo|h2", file_id):
