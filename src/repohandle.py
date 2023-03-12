@@ -3,6 +3,7 @@ import re
 import pathlib
 import javalang
 import pandas as pd
+import pathlib
 from pandas.core.frame import DataFrame
 from javalang.tree import CompilationUnit
 from javalang.parser import JavaSyntaxError
@@ -10,17 +11,10 @@ from typing import Tuple, Dict, List, Sequence, Set, Text, Union
 
 class HandleCodeRepo:
 	def __init__(self) -> None:
-		self.path = pathlib.Path.cwd()
-		print(self.path)
-		# self.h2 = self.path / ""
-
-	@property
-	def _GET_DATA_DIR(self) -> List[str]:
-		datasets = {"AddressBook" : "addressbook.csv", "DSpace" : "dspace.csv"} 
-		return os.path.join("./dataset", datasets.get("DSpace"))
+		pass
 
 	def __str__(self) -> str:
-		return f"{self.__class__.__name__}({self._GET_DATA_DIR})"
+		return f"{self.__class__.__name__}({self.pth})"
 
 	def __repr__(self) -> str:
 		return self.__str__()
@@ -30,69 +24,8 @@ class HandleCodeRepo:
 			raise TypeError("Invalid argument. Only text, sequence, mapping and set are accepted")
 		else:
 			return len(arg)
-	
-	def node_types(self) -> Union[Dict[str, List[str]], str, List[str]]:
-		return {
-			"statement" : {
-				"IfStatement", "WhileStatement", "DoStatement",
-				"AssertStatement", "SwitchStatement", "ForStatement",
-				"ContinueStatement", "ReturnStatement", "ThrowStatement",
-				"SynchronizedStatement", "TryStatement", "BreakStatement",
-				"BlockStatement", "BinaryOperation", "CatchClause"
-				},
-			"expression" : {
-				"StatementExpression", "TernaryExpression", "LambdaExpression"
-				},
-			
-			"control" : {
-				"ForControl", "EnhancedForControl"
-			},
 
-			"invocation" : {
-				"SuperConstructorInvocation", "MethodInvocation",  "SuperMethodInvocation", "SuperMemberReference"
-				"ExplicitConstructorInvocation", "ArraySelector", "AnnotationMethod", "MethodReference"
-				},
-
-			"declaration" : {
-				"TypeDeclaration", "FieldDeclaration", "MethodDeclaration", 
-				"ConstructorDeclaration", "PackageDeclaration", "ClassDeclaration", 
-				"EnumDeclaration", "InterfaceDeclaration", "AnnotationDeclaration", 
-				"ConstantDeclaration", "VariableDeclaration", "LocalVariableDeclaration",
-				"EnumConstantDeclaration", "VariableDeclarator"
-				},
-			}
-
-	def read_data(self) -> DataFrame:
-		try:
-			return pd.read_csv(self._GET_DATA_DIR)
-		except FileNotFoundError as e:
-			raise(e)
-	
-	def get_version(self) -> List[str]:
-		return [version for version in self.read_data()["version"]]
-	
-	def get_build(self) -> List[str]:
-		return [build for build in self.read_data()["build"]]
-	
-	def get_test(self) -> List[float]:
-		return [test for test in self.read_data()["test"]]
-
-	def get_hash(self) -> List[str]:
-		return [hash for hash in self.read_data()["hash"]]
-
-	def get_sourcecode(self) -> str:
-		return [code for code in self.read_data()["sourcecode"]]
-
-	def get_unit_test(self) -> List[float]:
-		return [code for code in self.read_data()["unit_test"]] 
-
-	def get_integration_test(self) -> List[float]:
-		return [code for code in self.read_data()["integration_test"]]
-
-	def get_unit_integration_test(self) -> List[float]:
-		return [code for code in self.read_data()["unit_integration_test"]]
-
-	def get_trees(self, code):
+	def get_trees(self, code) -> CompilationUnit:
 		trees = []
 		uncompiled_sourcecode = {}
 		for idx, sourcecode in enumerate(code):
@@ -117,7 +50,7 @@ class HandleCodeRepo:
 						raise e
 		return source_files, source_file_names
 
-	def get_runtime(self, runtime_path: Union[str, Tuple[str, str]]):
+	def get_runtime(self, runtime_path: Union[str, Tuple[str, str]]) -> List[float]:
 		runtime: pd.DataFrame = pd.read_csv(runtime_path)
 		file_id = runtime_path.split("/")[-1].lower()
 		if re.search("dubbo|h2", file_id):

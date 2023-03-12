@@ -14,7 +14,7 @@ Official implementation of ```SARA: Code Performance Prediction by Mapping Execu
 Artifact Author: Chidera Biringa
 <hr>
 
-## Problem Definition
+## Motivating Example
 <p align="center"> <img src="..doc/motivation.svg" width="95%"> </p>
 
 > Figure 1: Access and manipulation of a Linked-HashMap (LHM) using an Entry-set and Key-set. ESA and ESM denote Entry-set Access and Manipulation. KSA and KSM represent Key-set Access and Manipulation. Lines of code highlighted in green and red are LHM access and manipulation using  Entry-set and Key-set.
@@ -23,15 +23,16 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 
 The above-stated performance discrepancy might appear inconsequential for isolated occurrences. However, in scenarios where that low-performing program is deployed and used in multiple areas of a software product or feature, it would significantly increase the overall time of an operation to complete. Finally, the KSA and KSM versions of the program, which are inefficient, are syntactically correct and contain no apparent bugs. This highlights an inherent complexity in the problem, such as employing erroneous data structure selection and manipulation and selecting $O(2^{n})$ time algorithms when there are viable polynomial options.
 
-> Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity relatively outside the developer's control are operating at ```optimal``` levels.
+> Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity relatively outside the developer's control are operating at ```optimal``` levels. Furthermore, ......... data addresses this issues...
 
 
 ## Feature Engineering
 This work leverages domain knowledge in software engineering (code stylometry) for feature extraction. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. 
-Hence, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our ```FREQSTYLE``` and ```EMBEDSTYLE``` algorithms. FREQSTYLE and EMBEDSTYLE are numerical statistics and distributional semantic representation methods. In FREQSTYLE, we transformed features via frequency distribution, while EMBEDSTYLE constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
+
+Thus, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our ```FREQSTYLE``` and ```EMBEDSTYLE``` algorithms. FREQSTYLE and EMBEDSTYLE are numerical statistics and distributional semantic representation methods. In FREQSTYLE, we transformed features via frequency distribution, while EMBEDSTYLE constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
 
 ---
-```Taxonomy of Code Stylometry Features (CSF)``` \
+### Taxonomy of Code Stylometry Features (CSF)
  ```{Statements, Controls}``` $\in$ ```Syntactic``` $\land$ ```{Invocations, Declarations}``` $\in$ ```Lexical``` 
 | Class | Types | Brief Description | 
 | --------------- | --------------- | --------------- |
@@ -40,7 +41,6 @@ Hence, post-feature extraction, we transform the aforementioned extracted featur
 | Invocations | SuperConstructorInvocation, MethodInvocation,  SuperMethodInvocation, SuperMemberReference, ExplicitConstructorInvocation, ArraySelector, AnnotationMethod, MethodReference | Defines the invocation of a program from another program |
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration", AnnotationDeclaration, "ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 --- 
-
 
 FREQSTYLE: Numerical Statistic Representation of Extracted Code Stylometry Features
 <img src="..doc/freqstyle.png" width="40%">
