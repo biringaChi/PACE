@@ -10,7 +10,9 @@ Official implementation of ```SARA: Code Performance Prediction by Mapping Execu
 > 
 > This paper presents SARA, a code analysis framework that provides continuous feedback on the performance impact of pending code updates. We design performance microbenchmarks by binding the execution test times of embedded automated test cases given a code update and map the execution test times to numerical statistics and distributional semantic code stylometry features used as input observations to predictive models tasked with code performance predictions. Our experiments achieved state-of-the-art performance in predicting the execution time performance of code updates to the software.
 
-> Full paper details will be chronicled post acceptance. For now, SARA's feature engineering methods (link) is the most transferable component of this work and can be applied in several other use-cases. We leverage knowledge in code (SWE) and language (NLP) understanding to statistically and distributional extract input features. 
+<hr>
+
+> Note: Full paper details will be chronicled post-acceptance. SARA's [feature engineering](#feature-engineering) methods are the most transferable component of this work and are applicable in several other use cases beyond performance research. We leverage knowledge in code (SWE) and language (NLP) understanding to statistically and distributional extract input features. 
 
 <hr>
 Artifact Author: Chidera Biringa
@@ -44,11 +46,14 @@ Thus, post-feature extraction, we transform the aforementioned extracted feature
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration", AnnotationDeclaration, "ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 --- 
 
-FREQSTYLE: Numerical Statistic Representation of Extracted Code Stylometry Features
-<img src="..doc/freqstyle.png" width="40%">
+```
 
 ```
-$ python -m freqstyle
+
+FREQSTYLE: Numerical Statistic Representation of Extracted Code Stylometry Features
+<img src="..doc/freqstyle.png" width="40%">
+```
+$ python3 -m freqstyle
 ```
 EMBEDSTYLE: Distributional Semantic Representation of Extracted Code Stylometry Features
 <img src="..doc/embedstyle.png" width="40%">
