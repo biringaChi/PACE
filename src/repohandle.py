@@ -3,7 +3,6 @@ import re
 import pathlib
 import javalang
 import pandas as pd
-import pathlib
 from pandas.core.frame import DataFrame
 from javalang.tree import CompilationUnit
 from javalang.parser import JavaSyntaxError
@@ -25,10 +24,10 @@ class HandleCodeRepo:
 		else:
 			return len(arg)
 
-	def get_trees(self, code) -> CompilationUnit:
+	def get_trees(self, source_files) -> CompilationUnit:
 		trees = []
 		uncompiled_sourcecode = {}
-		for idx, sourcecode in enumerate(code):
+		for idx, sourcecode in enumerate(source_files):
 			try:
 				trees.append(javalang.parse.parse(sourcecode))
 			except JavaSyntaxError as e:

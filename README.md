@@ -10,6 +10,8 @@ Official implementation of ```SARA: Code Performance Prediction by Mapping Execu
 > 
 > This paper presents SARA, a code analysis framework that provides continuous feedback on the performance impact of pending code updates. We design performance microbenchmarks by binding the execution test times of embedded automated test cases given a code update and map the execution test times to numerical statistics and distributional semantic code stylometry features used as input observations to predictive models tasked with code performance predictions. Our experiments achieved state-of-the-art performance in predicting the execution time performance of code updates to the software.
 
+> Full paper details will be chronicled post acceptance. For now, SARA's feature engineering methods (link) is the most transferable component of this work and can be applied in several other use-cases. We leverage knowledge in code (SWE) and language (NLP) understanding to statistically and distributional extract input features. 
+
 <hr>
 Artifact Author: Chidera Biringa
 <hr>
@@ -23,8 +25,7 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 
 The above-stated performance discrepancy might appear inconsequential for isolated occurrences. However, in scenarios where that low-performing program is deployed and used in multiple areas of a software product or feature, it would significantly increase the overall time of an operation to complete. Finally, the KSA and KSM versions of the program, which are inefficient, are syntactically correct and contain no apparent bugs. This highlights an inherent complexity in the problem, such as employing erroneous data structure selection and manipulation and selecting $O(2^{n})$ time algorithms when there are viable polynomial options.
 
-> Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity relatively outside the developer's control are operating at ```optimal``` levels. Furthermore, ......... data addresses this issues...
-
+> Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity relatively outside the developer's control are operating at ```optimal``` levels.
 
 ## Feature Engineering
 This work leverages domain knowledge in software engineering (code stylometry) for feature extraction. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. 
@@ -33,11 +34,12 @@ Thus, post-feature extraction, we transform the aforementioned extracted feature
 
 ---
 ### Taxonomy of Code Stylometry Features (CSF)
- ```{Statements, Controls}``` $\in$ ```Syntactic``` $\land$ ```{Invocations, Declarations}``` $\in$ ```Lexical``` 
+ ```{Statements, Controls, Expressions}``` $\in$ ```Syntactic``` $\land$ ```{Invocations, Declarations}``` $\in$ ```Lexical``` 
 | Class | Types | Brief Description | 
 | --------------- | --------------- | --------------- |
 | Statements | IfStatement, WhileStatement, DoStatement, AssertStatement, SwitchStatement, ForStatement, ContinueStatement, ReturnStatement, ThrowStatement, SynchronizedStatement, TryStatement, BreakStatement, BlockStatement, BinaryOperation, CatchClause | Dictates the behavior of a program under explicitly defined conditions |
 | Controls | ForControl, EnhancedForControl 	  | Defines the repetition of instructions dependent on the satisfaction of requirements |
+| Expressions | StatementExpression, TernaryExpression, LambdaExpression	  | Independent language entities with unique definitions |
 | Invocations | SuperConstructorInvocation, MethodInvocation,  SuperMethodInvocation, SuperMemberReference, ExplicitConstructorInvocation, ArraySelector, AnnotationMethod, MethodReference | Defines the invocation of a program from another program |
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration", AnnotationDeclaration, "ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 --- 
