@@ -3,21 +3,15 @@ import re
 import pathlib
 import javalang
 import pandas as pd
-from pandas.core.frame import DataFrame
+from config import Config
 from javalang.tree import CompilationUnit
 from javalang.parser import JavaSyntaxError
 from typing import Tuple, Dict, List, Sequence, Set, Text, Union
 
 class HandleCodeRepo:
 	def __init__(self) -> None:
-		pass
+		self.config = Config()
 
-	def __str__(self) -> str:
-		return f"{self.__class__.__name__}({self.pth})"
-
-	def __repr__(self) -> str:
-		return self.__str__()
-	
 	def __len__(self, arg: Union[Sequence, Text, Dict, Set]) -> int:
 		if (isinstance(arg, (int, float, bool))):
 			raise TypeError("Invalid argument. Only text, sequence, mapping and set are accepted")
@@ -52,12 +46,12 @@ class HandleCodeRepo:
 	def get_runtime(self, runtime_path: Union[str, Tuple[str, str]]) -> List[float]:
 		runtime: pd.DataFrame = pd.read_csv(runtime_path)
 		file_id = runtime_path.split("/")[-1].lower()
-		if re.search("dubbo|h2", file_id):
-			file_name = runtime["Test File;Runtime in ms"].apply(lambda x: x.split(";")[0]).apply(lambda x: x.split(".")[-1])
-			runtime_ms = runtime["Test File;Runtime in ms"].apply(lambda x: x.split(";")[1])
-			return pd.DataFrame({"file_name": file_name, "runtime_ms": runtime_ms})
-		elif re.search("rdf4j", file_id):
-			return pd.DataFrame({"file_name": runtime["Test case"], "runtime_ms": runtime["Runtime in ms"]})
+		if re.search(self.config.dubbo_h2, file_id):
+			file_name = runtime[self.config.runtime_c].apply(lambda x:x.split(";")[0]).apply(lambda x:x.split(".")[-1])
+			runtime_ms = runtime[self.config.runtime_c].apply(lambda x:x.split(";")[1])
+			return pd.DataFrame({self.config.file_name:file_name, self.config.runtime_ms:runtime_ms})
+		elif re.search(self.config.rdf4j, file_id):
+			return pd.DataFrame({self.config.file_name:runtime[self.config.test_case], self.config.runtime_ms:runtime[self.config.runtime_c_ms]})
 		else:
 			runtime: pd.DataFrame = pd.concat([pd.read_csv(runtime_path[0]), pd.read_csv(runtime_path[1])])
-			return pd.DataFrame({"file_name": runtime["Test File"], "runtime_ms": runtime["Runtime in ms"]})
+			return pd.DataFrame({self.config.file_name: runtime[self.config.test_file], self.config.runtime_ms:runtime[self.config.runtime_c_ms]})

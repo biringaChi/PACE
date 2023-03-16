@@ -18,7 +18,14 @@ Official implementation of ```SARA: Code Performance Prediction by Mapping Execu
 Artifact Author: Chidera Biringa
 <hr>
 
-## Motivating Example
+## Installation
+```
+$ git clone https://github.com/biringaChi/SARA 
+$ pip install -r requirements.txt 
+$ cd src
+```
+
+## Problem Definition
 <p align="center"> <img src="..doc/motivation.svg" width="95%"> </p>
 
 > Figure 1: Access and manipulation of a Linked-HashMap (LHM) using an Entry-set and Key-set. ESA and ESM denote Entry-set Access and Manipulation. KSA and KSM represent Key-set Access and Manipulation. Lines of code highlighted in green and red are LHM access and manipulation using  Entry-set and Key-set.
@@ -53,7 +60,7 @@ Thus, post-feature extraction, we transform the aforementioned extracted feature
 FREQSTYLE: Numerical Statistic Representation of Extracted Code Stylometry Features
 <img src="..doc/freqstyle.png" width="40%">
 ```
-$ python3 -m freqstyle
+$ python3 freqstyle
 ```
 EMBEDSTYLE: Distributional Semantic Representation of Extracted Code Stylometry Features
 <img src="..doc/embedstyle.png" width="40%">

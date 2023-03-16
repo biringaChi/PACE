@@ -1,0 +1,5 @@
+javalang
+gensim
+pytorch 
+sklearn
+python>=3.9.0
