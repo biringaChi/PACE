@@ -53,10 +53,6 @@ Thus, post-feature extraction, we transform the aforementioned extracted feature
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 --- 
 
-```
-
-```
-
 FREQSTYLE: Numerical Statistic Representation of Extracted Code Stylometry Features
 <img src="..doc/freqstyle.png" width="40%">
 ```
@@ -65,5 +61,5 @@ $ python3 freqstyle
 EMBEDSTYLE: Distributional Semantic Representation of Extracted Code Stylometry Features
 <img src="..doc/embedstyle.png" width="40%">
 ```
-$ python -m embedstyle
+$ python3 
 ```

@@ -2,9 +2,9 @@ import re
 import numpy as np
 from math import isinf
 from typing import Dict, List, Tuple, Union, Set
-from repohandle import HandleCodeRepo, Sourcecode, FeatureVec
+from repohandle import HandleRepo, Sourcecode, FeatureVec
 
-class Helper(HandleCodeRepo):
+class Helper(HandleRepo):
     """Code-stylometry feature generator"""
     def __init__(self) -> None:
         super().__init__()

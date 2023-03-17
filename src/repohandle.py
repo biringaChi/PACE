@@ -8,7 +8,7 @@ from javalang.tree import CompilationUnit
 from javalang.parser import JavaSyntaxError
 from typing import Tuple, Dict, List, Sequence, Set, Text, Union
 
-class HandleCodeRepo:
+class HandleRepo:
 	def __init__(self) -> None:
 		self.config = Config()
 

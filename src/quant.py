@@ -1,2 +1,0 @@
-class Quant:
-	pass

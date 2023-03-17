@@ -1,10 +1,10 @@
+import math
 import typing
 import numpy as np
-from math import isinf
 from config import Config
-from repohandle import HandleCodeRepo
+from repohandle import HandleRepo
 
-class FreqStyle(HandleCodeRepo):
+class FreqStyle(HandleRepo):
 	"""
 	Numerical Statistic Representation of Extracted Code Stylometry Features
 	"""
@@ -22,7 +22,7 @@ class FreqStyle(HandleCodeRepo):
 	def _FE(self, source_file, feature, numstat):
 		with np.errstate(divide = "ignore"):
 			datapoint = -np.log10(feature / self.__len__(source_file))
-			numstat.append(0.0) if isinf(datapoint) else numstat.append(datapoint)
+			numstat.append(0.0) if math.isinf(datapoint) else numstat.append(datapoint)
 	
 	def _node_selection(self, tree, features):
 		return self.__len__([True for _, node in tree if node.__class__.__name__ in features])
@@ -55,9 +55,3 @@ class FreqStyle(HandleCodeRepo):
 			"syntactic" : (numstat_stmts, numstat_expr, numstat_ctrls),
 			"lexical" : (numstat_invctn, numstat_dclrtn)
 		}
-
-if __name__ == "__main__":
-	projects = []
-	config = FreqStyle().config
-	for project in [config.h2, config.rdf4j, config.dubbo, config.systemds]:
-		projects.append((FreqStyle(project)()))
