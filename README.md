@@ -32,7 +32,6 @@ $ cd src
 
 In this work, a code snippet or program is mediocre if it introduces a significant performance overhead to software and consequently skews the baseline resulting in an outlier performance. For example, consider the motivating example above. The snippet is a real-world fragment of a Java program, and it calculates the term frequency of more than 2000 elements in a linked hashmap (LHM). An LHM combines a hash table and a linked list. It ensures the predictable maintenance of elements in an iterable object. The peripheral difference between the snippets is in how the linked hashmap is accessed (ESA), (KSA), and manipulated (ESM), (KSM) using an ```entrySet()``` and ```keySet()``` respectively. On a test level, the ESA and ESM, and KSA and KSM versions of the code snippet execute in ```4 seconds``` and ```4 minutes``` as tested in our test environment, which means there is a ```6000% increase``` in ET. The difference decreases by half to ```3000%```, with an increase in the number of elements from 2,000 to 200,000. 
 
-The above-stated performance discrepancy might appear inconsequential for isolated occurrences. However, in scenarios where that low-performing program is deployed and used in multiple areas of a software product or feature, it would significantly increase the overall time of an operation to complete. Finally, the KSA and KSM versions of the program, which are inefficient, are syntactically correct and contain no apparent bugs. This highlights an inherent complexity in the problem, such as employing erroneous data structure selection and manipulation and selecting $O(2^{n})$ time algorithms when there are viable polynomial options.
 
 > Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity relatively outside the developer's control are operating at ```optimal``` levels.
 
@@ -51,17 +50,5 @@ Thus, post-feature extraction, we transform the aforementioned extracted feature
 | Expressions | StatementExpression, TernaryExpression, LambdaExpression	  | Independent language entities with unique definitions |
 | Invocations | SuperConstructorInvocation, MethodInvocation,  SuperMethodInvocation, SuperMemberReference, ExplicitConstructorInvocation, ArraySelector, AnnotationMethod, MethodReference | Defines the invocation of a program from another program |
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
---- 
-
-FREQSTYLE: Numerical Statistic Representation of Extracted Code Stylometry Features
-<img src="..doc/freqstyle.png" width="40%">
-```
-$ python3 freqstyle
-```
-EMBEDSTYLE: Distributional Semantic Representation of Extracted Code Stylometry Features
-<img src="..doc/embedstyle.png" width="40%">
-```
-$ python3 
-```
 
 ## Reproducing Results in Paper

@@ -21,28 +21,28 @@ class Config:
 		self.test_file = "Test File"
 
 		self.feature_types: typing.Dict =  {
-			"statements" : {
+			"statements" : [
 				"IfStatement", "WhileStatement", "DoStatement",
 				"AssertStatement", "SwitchStatement", "ForStatement",
 				"ContinueStatement", "ReturnStatement", "ThrowStatement",
 				"SynchronizedStatement", "TryStatement", "BreakStatement",
 				"BlockStatement", "BinaryOperation", "CatchClause"
-				},
-			"expressions" : {
+			],
+			"expressions" : [
 				"StatementExpression", "TernaryExpression", "LambdaExpression"
-				},
-			"controls" : {
+			],
+			"controls" : [
 				"ForControl", "EnhancedForControl"
-			},
-			"invocations" : {
+			],
+			"invocations" : [
 				"SuperConstructorInvocation", "MethodInvocation",  "SuperMethodInvocation", "SuperMemberReference"
 				"ExplicitConstructorInvocation", "ArraySelector", "AnnotationMethod", "MethodReference"
-				},
-			"declarations" : {
+			],
+			"declarations" : [
 				"TypeDeclaration", "FieldDeclaration", "MethodDeclaration", 
 				"ConstructorDeclaration", "PackageDeclaration", "ClassDeclaration", 
 				"EnumDeclaration", "InterfaceDeclaration", "AnnotationDeclaration", 
 				"ConstantDeclaration", "VariableDeclaration", "LocalVariableDeclaration",
 				"EnumConstantDeclaration", "VariableDeclarator"
-				}
-		}
+			]
+	}

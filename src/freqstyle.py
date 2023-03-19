@@ -29,7 +29,7 @@ class FreqStyle(HandleRepo):
 
 	def __call__(self) -> typing.Dict:
 		statements, expressions, controls, invocations, declarations = ([] for _ in range(5))
-		source_files, _ = self.get_project(self.project)
+		source_files = self.get_project(self.project)
 		trees, _ = self.get_trees(source_files)
 		for tree in trees:
 			statements.append(self._node_selection(tree, self.stmt_features))
