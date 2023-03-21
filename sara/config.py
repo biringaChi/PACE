@@ -6,11 +6,11 @@ class Config:
 	Configurations
 	"""
 	def __init__(self) -> None:
-		self.pth = pathlib.Path.cwd().parents[0]/"datasets/tep-gnn/JavaTestFiles"
-		self.h2 = self.pth/"H2"
-		self.rdf4j = self.pth/"rdf4j"
-		self.dubbo = self.pth/"apache/dubbo"
-		self.systemds = self.pth/"apache/systemds"
+		self.pth: str = pathlib.Path.cwd().parents[0]/"datasets/tep-gnn/JavaTestFiles"
+		self.h2: str = self.pth/"H2"
+		self.rdf4j: str = self.pth/"rdf4j"
+		self.dubbo: str = self.pth/"apache/dubbo"
+		self.systemds: str = self.pth/"apache/systemds"
 		self.runtime_c = "Test File;Runtime in ms"
 		self.runtime_c_ms = "Runtime in ms"
 		self.dubbo_h2 = "dubbo|h2"
@@ -19,6 +19,7 @@ class Config:
 		self.runtime_ms = "runtime_ms"
 		self.test_case = "Test case"
 		self.test_file = "Test File"
+		self.seq_size: int = 258
 
 		self.feature_types: typing.Dict =  {
 			"statements" : [

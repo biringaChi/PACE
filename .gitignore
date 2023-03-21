@@ -174,8 +174,12 @@ JavaTestFiles
 RunTimeData
 
 plots.zip
+experiments
 experiments.txt
 perf.py
 stylometry.py
 tree.py
-*.kv
+# *.kv
+
+
+vectors.kv
