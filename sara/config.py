@@ -19,7 +19,7 @@ class Config:
 		self.runtime_ms = "runtime_ms"
 		self.test_case = "Test case"
 		self.test_file = "Test File"
-		self.seq_size: int = 258
+		self.max_seqlen: int = 64
 
 		self.feature_types: typing.Dict =  {
 			"statements" : [

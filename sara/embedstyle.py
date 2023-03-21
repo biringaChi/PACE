@@ -12,12 +12,16 @@ class EmbedStyle(HandleRepo):
 	def __init__(self, project = None) -> None:
 		super().__init__()
 		self.cfg = Config()
-		self.ft = self.cfg.ft
+		self.seqlen = self.cfg.max_seqlen
+		self.ft = self.cfg.feature_types
 		self.features = self.ft["statements"] + self.ft["expressions"] + self.ft["controls"] + self.ft["invocations"] + self.ft["declarations"]
+	
+	def _node_selection(self, tree):
+		return [node.__class__.__name__ for _, node in tree if node.__class__.__name__ in self.features]
 
-	def _model(data, vec_name):
+	def _model(data, vec_id):
 		vectors = Word2Vec(sentences = data, vector_size = 32).wv
-		vectors.save(pathlib.Path.cwd().parents[0]/"embeddings"/vec_name)
+		vectors.save(pathlib.Path.cwd().parents[0]/"embeddings"/vec_id)
 	
 	def _vector_match(vectors, observations):
 		vec_dict = {}
@@ -34,40 +38,34 @@ class EmbedStyle(HandleRepo):
 		return embeddings
 	
 	def _truncate(self, embeddings):
-		out = []
-		for embedding in embeddings:
-			out.append(embedding[:self.cfg.seq_size]) if len(embedding) > self.cfg.seq_size else out.append(embedding)
-		return out
-
+		return [vector[:self.seqlen] if self.__len__(vector) > self.seqlen else vector for vector in embeddings] 
+		
 	def _zeropad(self, embeddings):
-		zeros: np.ndarray = np.zeros((32,), dtype = np.float64)
-		out  = []
-		max_length: int = max(self.__len__(embedding) for embedding in embeddings)
+		out  = []		
 		for embedding in embeddings:
-			if len(embedding) < max_length:
-				embedding.extend([0.0] * (max_length - self.__len__(embedding)))
+			if len(embedding) < self.seqlen:
+				embedding.extend([0.0] * (self.seqlen - len(embedding)))
 		for embedding in embeddings:
 			temp = []
 			for vector in embedding:
 				if not type(vector).__module__ == np.__name__:
-					temp.append(zeros)
+					temp.append(np.zeros((32,), dtype = np.float64))
 				else: temp.append(vector)
 			out.append(temp)
 		return out
 
-	def _store_object(self):
+	def _store_vectors(self, vector):
 		pass
 
-	def _load_object(self):
-		pass
-
-	def _1D_convert(sef):
+	def _load_vectors(self, vector):
 		pass
 		
 	def __call__(self):
 		source_files = self.get_project(self.project)
 		trees, _ = self.get_trees(source_files)
-		features = []
-		for tree in trees:
-			features.append([node.__class__.__name__ for _, node in tree if node.__class__.__name__ in self.features])
-		return features
+		features = [self._node_selection(tree) for tree in trees]
+		observations = self._model(features, "vectors.kv")
+		embeddings = self._vector_match(observations)
+		embeddings = self._truncate(embeddings)
+		embeddings = self._zeropad(embeddings)
+		return embeddings
