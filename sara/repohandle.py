@@ -2,6 +2,7 @@ import os
 import re
 import pathlib
 import javalang
+import pickle
 import pandas as pd
 from config import Config
 from javalang.tree import CompilationUnit
@@ -17,6 +18,15 @@ class HandleRepo:
 			raise TypeError("Invalid argument. Only text, sequence, mapping and set are accepted")
 		else:
 			return len(arg)
+
+	def pickle(self, data, file_name):
+		with open(file_name, "wb") as file:
+			pickle.dump(data, file)
+	
+	def unpickle(self, data):
+		with open(data, "rb") as file:
+			loaded = pickle.load(file)
+		return loaded
 
 	def get_trees(self, source_files) -> CompilationUnit:
 		trees = []
