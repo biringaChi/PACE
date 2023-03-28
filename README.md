@@ -1,7 +1,7 @@
 <h4 align = "center"> SARA: Code Performance Prediction by Mapping Execution Test Times to Stylometry Features</h4>
 <hr>
 
-<p align="center"> <img src="..doc/sara.svg" width="98%"> </p>
+<p align="center"> <img src="..doc/sarabg.svg" width="90%"> </p>
 
 Official implementation of ```SARA: Code Performance Prediction by Mapping Execution Test Times to Stylometry Features``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
 

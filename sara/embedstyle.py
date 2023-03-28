@@ -68,4 +68,4 @@ class EmbedStyle(HandleRepo):
 	def __call__(self):
 		trees, _ = self.get_trees(self.get_project(self.project))
 		features = [self.node_selection(tree) for tree in trees]
-		return self.zeropad(self.truncate(self.vector_match(self.model(features, "vectors.kv"))))
+		return self.zeropad(self.truncate(self.vector_match(self.model(features, "vectors.kv")))) #os.getdir
