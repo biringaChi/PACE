@@ -4,7 +4,7 @@
 <h3 align = "center"> CAF-PP: Code Analysis Framework for Performance Prediction </h3>
 <hr>
 
-<p align="center"> <img src="..doc/CAF-PP.svg" width="90%"> </p>
+<p align="center"> <img src="..doc/CAF-PP.svg" width="80%"> </p>
 
 Official implementation of ```CAF-PP: Code Analysis Framework for Performance Prediction``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
 
