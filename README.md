@@ -41,7 +41,7 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 ## Microbenchmarking
 Software performance microbenchmarking is a standardized procedure to experimentally analyze the execution time of non-functional components of the software, such as code snippets.  Test case results serve as the microbenchmarks, ground truth target variables fed to implemented regression models for performance predictions. To facilitate the execution time extraction process, we created an automated testing framework compromising two testing tools, namely Travis CI and Maven Surefire (MS).
 
-## Feature Engineering
+## Code Stylometry Feature Engineering
 This work leverages domain knowledge in software engineering (code stylometry) for feature extraction. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. 
 
 Thus, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our ```FREQSTYLE``` and ```EMBEDSTYLE``` algorithms. FREQSTYLE and EMBEDSTYLE are numerical statistics and distributional semantic representation methods. In FREQSTYLE, we transformed features via frequency distribution, while EMBEDSTYLE constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
