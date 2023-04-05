@@ -1,12 +1,12 @@
 <!-- <h4 align = "center"> SARA: Code Performance Prediction by Mapping Execution Test Times to Stylometry Features</h4>
 <hr> -->
 
-<h3 align = "center"> CAF-PP: Code Analysis Framework for Performance Prediction </h3>
+<h3 align = "center"> CAFA: Code Analysis Framework for Performance Prediction </h3>
 <hr>
 
-<p align="center"> <img src="..doc/CAF-PP.svg" width="80%"> </p>
+<p align="center"> <img src="..doc/cafa.svg" width="80%"> </p>
 
-Official implementation of ```CAF-PP: Code Analysis Framework for Performance Prediction``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
+Official implementation of ```CAFA: Code Analysis Framework for Performance Prediction``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
 
 ## Abstract
 > Software development teams establish elaborate continuous integration pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. 
@@ -39,12 +39,14 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 > Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity relatively outside the developer's control are operating at ```optimal``` levels.
 
 ## Microbenchmarking
-Software performance microbenchmarking is a standardized procedure to experimentally analyze the execution time of non-functional components of the software, such as code snippets.  Test case results serve as the microbenchmarks, ground truth target variables fed to implemented regression models for performance predictions. To facilitate the execution time extraction process, we created an automated testing framework compromising two testing tools, namely Travis CI and Maven Surefire (MS).
+Software performance microbenchmarking is a standardized procedure to experimentally analyze the execution time of non-functional components of the software, such as code snippets.  Test case results serve as the microbenchmarks, ground truth target variables fed to implemented predictive models for performance predictions.
+
+## Rolling Predicitons & Deduplication
+>Rolling Predictions. CCS: Current Code State. The features of a CCS given commit n a re trained on a regression model to predict the performance impact of CCS at commit n+1. Following that, CAFA uses n+1 features in predicting n+2. CAFA performs rolling predictions until n+n (the latest CCS). 
+<p align="center"> <img src="..doc/roll.svg" width="60%"> </p>
 
 ## Code Stylometry Feature Engineering
-This work leverages domain knowledge in software engineering (code stylometry) for feature extraction. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. 
-
-Thus, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our ```FREQSTYLE``` and ```EMBEDSTYLE``` algorithms. FREQSTYLE and EMBEDSTYLE are numerical statistics and distributional semantic representation methods. In FREQSTYLE, we transformed features via frequency distribution, while EMBEDSTYLE constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
+This work leverages domain knowledge in software engineering (code stylometry) for feature extraction. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. Thus, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our ```FREQSTYLE``` and ```EMBEDSTYLE``` algorithms. FREQSTYLE and EMBEDSTYLE are numerical statistics and distributional semantic representation methods. In FREQSTYLE, we transformed features via frequency distribution, while EMBEDSTYLE constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
 
 ---
 ### Taxonomy of Code Stylometry Features (CSF)

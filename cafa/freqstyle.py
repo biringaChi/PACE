@@ -51,6 +51,7 @@ class FreqStyle(HandleRepo):
 			self._FE(source_file, ctrl_feature, numstat_ctrls)
 			self._FE(source_file, invctn_feature, numstat_invctn)
 			self._FE(source_file, dclrtn_feature, numstat_dclrtn)
+			
 		return {
 			"syntactic" : (numstat_stmts, numstat_expr, numstat_ctrls),
 			"lexical" : (numstat_invctn, numstat_dclrtn)
