@@ -1,21 +1,21 @@
 <!-- <h4 align = "center"> SARA: Code Performance Prediction by Mapping Execution Test Times to Stylometry Features</h4>
 <hr> -->
 
-<h3 align = "center"> CAFA: Code Analysis Framework for Performance Prediction </h3>
+<h3 align = "center"> PAK-PP: Program Analysis Framework for Performance Prediction </h3>
 <hr>
 
-<p align="center"> <img src="..doc/cafa.svg" width="80%"> </p>
+<p align="center"> <img src="..doc/PAK-PP.svg" width="80%"> </p>
 
-Official implementation of ```CAFA: Code Analysis Framework for Performance Prediction``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
+Official implementation of ```PAK-PP: Program Analysis Framework for Performance Prediction``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
 
 ## Abstract
 > Software development teams establish elaborate continuous integration pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. 
 > 
-> This paper presents CAF-PP, a code analysis framework that provides continuous feedback on the performance impact of pending code updates. We design performance microbenchmarks by binding the execution test times of embedded automated test cases given a code update and map the execution test times to numerical statistics and distributional semantic code stylometry features used as input observations to predictive models tasked with code performance predictions. Our experiments achieved state-of-the-art performance in predicting the execution time performance of code updates to the software.
+> This paper presents PAK-PP, a code analysis framework that provides continuous feedback on the performance impact of pending code updates. We design performance microbenchmarks by binding the execution test times of embedded automated test cases given a code update and map the execution test times to numerical statistics and distributional semantic code stylometry features used as input observations to predictive models tasked with code performance predictions. Our experiments achieved state-of-the-art performance in predicting the execution time performance of code updates to the software.
 
 <hr>
 
-> Note: Full paper details will be chronicled post-acceptance. CAF-PP's [feature engineering](#feature-engineering) methods are the most transferable component of this work and are applicable in several other use cases beyond performance research. We leverage knowledge in code (SWE) and language (NLP) understanding to statistically and distributionally extract input features. 
+> Note: Full paper details will be chronicled post-acceptance. PAK-PP's [feature engineering](#feature-engineering) methods are the most transferable component of this work and are applicable in several other use cases beyond performance research. We leverage knowledge in code (SWE) and language (NLP) understanding to statistically and distributionally extract input features. 
 
 <hr>
 Artifact Author: Chidera Biringa
@@ -23,13 +23,13 @@ Artifact Author: Chidera Biringa
 
 ## Installation
 ```
-$ git clone https://github.com/biringaChi/CAF-PP 
+$ git clone https://github.com/biringaChi/PAK-PP 
 $ pip install -r requirements.txt 
 $ cd src
 ```
 
 ## Problem Definition
-<p align="center"> <img src="..doc/motivation.svg" width="95%"> </p>
+<p align="center"> <img src="..doc/problem.svg" width="80%"> </p>
 
 > Figure 1: Access and manipulation of a Linked-HashMap (LHM) using an Entry-set and Key-set. ESA and ESM denote Entry-set Access and Manipulation. KSA and KSM represent Key-set Access and Manipulation. Lines of code highlighted in green and red are LHM access and manipulation using  Entry-set and Key-set.
 
@@ -42,7 +42,7 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 Software performance microbenchmarking is a standardized procedure to experimentally analyze the execution time of non-functional components of the software, such as code snippets.  Test case results serve as the microbenchmarks, ground truth target variables fed to implemented predictive models for performance predictions.
 
 ## Rolling Predicitons & Deduplication
->Rolling Predictions. CCS: Current Code State. The features of a CCS given commit n a re trained on a regression model to predict the performance impact of CCS at commit n+1. Following that, CAFA uses n+1 features in predicting n+2. CAFA performs rolling predictions until n+n (the latest CCS). 
+>Rolling Predictions. CCS: Current Code State. The features of a CCS given commit n a re trained on a regression model to predict the performance impact of CCS at commit n+1. Following that, PAK-PP uses n+1 features in predicting n+2. PAK-PP performs rolling predictions until n+n (the latest CCS). 
 <p align="center"> <img src="..doc/roll.svg" width="60%"> </p>
 
 ## Code Stylometry Feature Engineering

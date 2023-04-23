@@ -180,3 +180,19 @@ perf.py
 stylometry.py
 tree.py
 # *.k
+nst.txt
+throughput.txt
+a.csv
+b.csv
+c.csv
+d.csv
+e.csv
+
+embeddings
+addressbook_aste.csv
+# build.sh
+data.tar.gz
+scratch.ipynb
+SPECDET-scratch_nn.ipynb
+results
+features
