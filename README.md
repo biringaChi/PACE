@@ -1,5 +1,4 @@
-<h2 align = "center"> PAK-CPP: Program Analysis Framework for Performance Prediction </h2>
-<hr>
+<h2 align = "center"> PAK-CPP: Program Analysis Framework for Continous Performance Prediction </h2>
 
 <p align="center"> <img src="..doc/PAK-CPP.svg" width="80%"> </p>
 
