@@ -1,4 +1,5 @@
 <h3 align = "center"> PAK-CPP: Program Analysis Framework for Continuous Performance Prediction </h3>
+---
 
 <p align="center"> <img src="..doc/PAK-CPP.svg" width="80%"> </p>
 
@@ -55,6 +56,7 @@ This work leverages domain knowledge in software engineering (code stylometry) f
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 
 ### CSF Representation
+---
 ```"Representation learning, i.e., learning representations of the data that make it easier to extract useful information when building classifiers or other predictors" -- Bengio et al.``` <br />
 The natural consequence of selecting features for predicting modeling is its representation. Ergo, our NSR and DSR algorithms. ```Pros of representation algorithms include:```
 - Significant reduction in conventional vocabulary size due to application of domain (code stylometry) knowledge understanding. <br />
@@ -69,18 +71,17 @@ The natural consequence of selecting features for predicting modeling is its rep
 
 
 ## Reproducing Results in Paper
-
-RQ1: NSR Features Tables 3 & 4
+RQ1: Predictor Selection & Performance Analysis
 ```
 $ TODO
 ```
 
-RQ2:
+RQ2: Throughput Analysis of CSF Selection & Representation
 ```
 $ TODO
 ```
 
-RQ3:
+RQ3: Quant Comparison with SOTA
 ```
 $ TODO
 ```
