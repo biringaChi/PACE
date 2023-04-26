@@ -37,8 +37,10 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 ## Microbenchmarking
 Software performance microbenchmarking is a standardized procedure to experimentally analyze the execution time of non-functional components of the software, such as code snippets.  Test case results serve as the microbenchmarks, ground truth target variables fed to implemented predictive models for performance predictions.
 
-## Rolling Predicitons & Deduplication
->Rolling Predictions. CCS: Current Code State. The features of a CCS given commit n a re trained on a regression model to predict the performance impact of CCS at commit n+1. Following that, PAK-CPP uses n+1 features in predicting n+2. PAK-CPP performs rolling predictions until n+n (the latest CCS). 
+## Continuous Predicitons & Deduplication
+<!-- >Rolling Predictions. CCS: Current Code State. The features of a CCS given commit n a re trained on a regression model to predict the performance impact of CCS at commit n+1. Following that, PAK-CPP uses n+1 features in predicting n+2. PAK-CPP performs rolling predictions until n+n (the latest CCS).  -->
+> We propose continuous (rolling) predictions in line with our goal of predicting the performance of the local software repository before it is ```pushed``` to its remote counterpart. Encapsulated in the Figure below displays base repository copy ($n$) is the repository's current code state (CCS), while ($n - 1$) is a local version consisting of an updated CCS in the queue to be pushed to remote. We feed  $n$ ```(training set)``` to a regression function ($\phi$) to predict the performance of $n-1$ ```(testing set)```. We repeat this process ($n-n$) times. Furthermore, it eliminates duplicated observations.
+> 
 <p align="center"> <img src="..doc/roll.svg" width="60%"> </p>
 
 ## Code Stylometry Feature Engineering
@@ -55,7 +57,7 @@ This work leverages domain knowledge in software engineering (code stylometry) f
 | Invocations | SuperConstructorInvocation, MethodInvocation,  SuperMethodInvocation, SuperMemberReference, ExplicitConstructorInvocation, ArraySelector, AnnotationMethod, MethodReference | Defines the invocation of a program from another program |
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 
-### CSF Representation
+### CSF Representation Learning
 ---
 ```"Representation learning, i.e., learning representations of the data that make it easier to extract useful information when building classifiers or other predictors" -- Bengio et al.``` <br />
 The natural consequence of selecting features for predicting modeling is its representation. Ergo, our NSR and DSR algorithms. ```Pros of representation algorithms include:```
