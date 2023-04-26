@@ -1,8 +1,8 @@
-<h3 align = "center"> PAK-CPP: Program Analysis Framework for Continous Performance Prediction </h3>
+<h3 align = "center"> PAK-CPP: Program Analysis Framework for Continuous Performance Prediction </h3>
 
 <p align="center"> <img src="..doc/PAK-CPP.svg" width="80%"> </p>
 
-Official implementation of ```PAK-CPP: Program Analysis Framework for Continous Performance Prediction``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
+Official implementation of ```PAK-CPP: Program Analysis Framework for Continuous Performance Prediction``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
 
 ## Abstract
 > Software development teams establish elaborate continuous integration pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. 
@@ -31,7 +31,6 @@ $ cd src
 
 In this work, a code snippet or program is mediocre if it introduces a significant performance overhead to software and consequently skews the baseline resulting in an outlier performance. For example, consider the motivating example above. The snippet is a real-world fragment of a Java program, and it calculates the term frequency of more than 2000 elements in a linked hashmap (LHM). An LHM combines a hash table and a linked list. It ensures the predictable maintenance of elements in an iterable object. The peripheral difference between the snippets is in how the linked hashmap is accessed (ESA), (KSA), and manipulated (ESM), (KSM) using an ```entrySet()``` and ```keySet()``` respectively. On a test level, the ESA and ESM, and KSA and KSM versions of the code snippet execute in ```4 seconds``` and ```4 minutes``` as tested in our test environment, which means there is a ```6000% increase``` in ET. The difference decreases by half to ```3000%```, with an increase in the number of elements from 2,000 to 200,000. 
 
-
 > Note: we are working under the assumption of an ```ideal``` software development environment, where external variables such as memory usage and network connectivity relatively outside the developer's control are operating at ```optimal``` levels.
 
 ## Microbenchmarking
@@ -42,10 +41,10 @@ Software performance microbenchmarking is a standardized procedure to experiment
 <p align="center"> <img src="..doc/roll.svg" width="60%"> </p>
 
 ## Code Stylometry Feature Engineering
-This work leverages domain knowledge in software engineering (code stylometry) for feature extraction. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. Thus, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our ```FREQSTYLE``` and ```EMBEDSTYLE``` algorithms. FREQSTYLE and EMBEDSTYLE are numerical statistics and distributional semantic representation methods. In FREQSTYLE, we transformed features via frequency distribution, while EMBEDSTYLE constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
+This work leverages domain knowledge in software engineering (code stylometry) for feature extraction. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. Thus, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our ```NSR``` and ```DSR``` algorithms. NSR and DSR are numerical statistics and distributional semantic representation methods. In NSR, we transformed features via frequency distribution, while DSR constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
 
 ---
-### Taxonomy of Code Stylometry Features (CSF)
+### Taxonomy of Code Stylometry Features (CSF) -- Feature Selection 
  ```{Statements, Controls, Expressions}``` $\in$ ```Syntactic``` $\land$ ```{Invocations, Declarations}``` $\in$ ```Lexical``` 
 | Class | Types | Brief Description | 
 | --------------- | --------------- | --------------- |
@@ -55,4 +54,33 @@ This work leverages domain knowledge in software engineering (code stylometry) f
 | Invocations | SuperConstructorInvocation, MethodInvocation,  SuperMethodInvocation, SuperMemberReference, ExplicitConstructorInvocation, ArraySelector, AnnotationMethod, MethodReference | Defines the invocation of a program from another program |
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 
+### CSF Representation
+```"Representation learning, i.e., learning representations of the data that make it easier to extract useful information when building classifiers or other predictors" -- Bengio et al.``` <br />
+The natural consequence of selecting features for predicting modeling is its representation. Ergo, our NSR and DSR algorithms. ```Pros of representation algorithms include:```
+- Significant reduction in conventional vocabulary size due to application of domain (code stylometry) knowledge understanding. <br />
+- Increased predictor training and prediction speed. <br />
+- Significant reduction in sparse vectors.
+
+#### Algorithm 1: Numerical Statistic Representation of CSF (NSR)
+<p align="center"> <img src="..doc/nsr.png" width="50%"> </p>
+
+#### Algorithm 2: Distributional Semantic Representation of CSF (NSR)
+<p align="center"> <img src="..doc/dsr.png" width="50%"> </p>
+
+
 ## Reproducing Results in Paper
+
+RQ1: NSR Features Tables 3 & 4
+```
+$ TODO
+```
+
+RQ2:
+```
+$ TODO
+```
+
+RQ3:
+```
+$ TODO
+```
