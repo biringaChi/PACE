@@ -137,10 +137,6 @@ scratch.txt
 # iPython Notebooks
 *.ipynb
 
-# Setup
-setup.py
-*__init__.py
-
 # Miscellaneous
 explore.py
 
@@ -176,6 +172,7 @@ RunTimeData
 plots.zip
 experiments
 experiments.txt
+plots
 perf.py
 stylometry.py
 tree.py
@@ -196,3 +193,6 @@ scratch.ipynb
 SPECDET-scratch_nn.ipynb
 results
 # features
+
+paper materials
+PACE
