@@ -44,7 +44,7 @@ class HandleRepo:
 		for root, _, files in os.walk(project):
 			for file in files:
 				if file.endswith(".java"):
-					temp = os.path.join(root, file)
+					temp = os.path.join(root, file) 
 					source_file_names.append(pathlib.Path(temp).stem)
 					try:
 						with open(temp, "r") as source_file:

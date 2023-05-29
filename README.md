@@ -38,16 +38,17 @@ In this work, a code snippet or program is mediocre if it introduces a significa
 Software performance microbenchmarking is a standardized procedure to experimentally analyze the execution time of non-functional components of the software, such as code snippets.  Test case results serve as the microbenchmarks, ground truth target variables fed to implemented predictive models for performance predictions.
 
 ## Continuous Predicitons & Deduplication
-<!-- >Rolling Predictions. CCS: Current Code State. The features of a CCS given commit n a re trained on a regression model to predict the performance impact of CCS at commit n+1. Following that, PACE uses n+1 features in predicting n+2. PACE performs rolling predictions until n+n (the latest CCS).  -->
-> We propose continuous (rolling) predictions in line with our goal of predicting the performance of the local software repository before it is ```pushed``` to its remote counterpart. Encapsulated in the Figure below displays base repository copy ($n$) is the repository's current code state (CCS), while ($n - 1$) is a local version consisting of an updated CCS in the queue to be pushed to remote. We feed  $n$ ```(training set)``` to a regression function ($\phi$) to predict the performance of $n-1$ ```(testing set)```. We repeat this process ($n-n$) times. Furthermore, it eliminates duplicated observations.
-> 
+We propose continuous or rolling predictions in line with our goal of predicting the performance of the local software repository before being pushed to its remote counterpart. Encapsulated in the Figure displays base repository copy ```n``` is the repository's current code state (CCS), while ```n-1``` is a local version consisting of an updated CCS in the queue to be pushed to remote. We feed  ```n``` (training set) to a regression function ($\phi$) to predict the performance of ```n-1``` (testing set). We repeat this process for ```n-n``` times. Furthermore, it eliminates duplicated observations. 
+
+
 <p align="center"> <img src="..doc/roll.svg" width="60%"> </p>
 
 ## Code Stylometry Feature Engineering
-This work leverages domain knowledge in software engineering (code stylometry) for feature extraction. Code stylometry is a source code's functional and non-functional characteristics. The table below details features of interest. An indispensable component of building predictive models is the transformation of text-based observations into numerical representations. Thus, post-feature extraction, we transform the aforementioned extracted features into numerical data points using our ```NSR``` and ```DSR``` algorithms. NSR and DSR are numerical statistics and distributional semantic representation methods. In NSR, we transformed features via frequency distribution, while DSR constitutes the adoption of unsupervised learning by mapping observations to vector space and deriving feature embeddings. 
+Code-stylometry (CStyle) is the stylometric analysis of a code's syntactic and lexical characteristics. In principle, cstyle is akin to stylometry. Contrastly, in stylometry, we analyze natural languages, while cstyle involves the analyses of programming languages. 
 
-### Feature Selection and Rerpresentation (Taxonomy of Code Stylometry Features (CSF))
+### (Taxonomy of Code Stylometry Features (CSF))
 <hr>
+### Feature Selection
 
  ```{Statements, Controls, Expressions}``` $\in$ ```Syntactic``` $\land$ ```{Invocations, Declarations}``` $\in$ ```Lexical``` 
 | Class | Types | Brief Description | 
@@ -58,7 +59,7 @@ This work leverages domain knowledge in software engineering (code stylometry) f
 | Invocations | SuperConstructorInvocation, MethodInvocation,  SuperMethodInvocation, SuperMemberReference, ExplicitConstructorInvocation, ArraySelector, AnnotationMethod, MethodReference | Defines the invocation of a program from another program |
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 
-### Feature Rerpresentation
+### Feature Representation
 The natural consequence of selecting features for predicting modeling is its representation. Thus, we design frequency and neural based-algorithms to numerically transform selected features.  <br />
  ```Pros of representation algorithms include:```
 - Significant reduction in conventional vocabulary size due to application of domain (code stylometry) knowledge understanding. <br />
@@ -68,10 +69,6 @@ The natural consequence of selecting features for predicting modeling is its rep
 
 ### ```AG's 1 & 2```
 <hr>
-<!-- <p align="center"> <img src="..doc/nsr.png" width="50%"> </p>
-#### AG2: Distributional Semantic Representation of CSF (NSR)
-<p align="center"> <img src="..doc/dsr.png" width="50%"> </p> -->
-
 <p align="center">
   <img src="..doc/nsr.png" width="40%" />   &nbsp;
   <img src="..doc/dsr.png" width="45%" /> 
