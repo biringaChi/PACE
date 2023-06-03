@@ -67,26 +67,26 @@ The natural consequence of selecting features for predicting modeling is its rep
 - Significant reduction in sparse vectors.
 <!-- #### AG1: Numerical Statistic Representation of CSF (NSR) -->
 
-### ```AG's 1 & 2```
+<!-- ### ```AG's 1 & 2```
 <hr>
 <p align="center">
   <img src="..doc/nsr.png" width="40%" />   &nbsp;
   <img src="..doc/dsr.png" width="45%" /> 
-</p>
-
+</p> -->
 
 ## Reproducing Results in Paper
-RQ1: Predictor Selection & Performance Analysis
+RQ1: Predictive Prowess
 ```
 $ TODO
 ```
 
-RQ2: Throughput Analysis of CSF Selection & Representation
+RQ2: Throughput and Latency Analysis of CSF Selection & Statistic and Neural Representations
 ```
 $ TODO
 ```
 
-RQ3: Quant Comparison with SOTA
+RQ3: Comparison With the State-of-the-Art Approach
 ```
 $ TODO
 ```
+ 
