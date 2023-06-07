@@ -185,7 +185,7 @@ c.csv
 d.csv
 e.csv
 
-embeddings
+X-old-embeds
 addressbook_aste.csv
 # build.sh
 data.tar.gz

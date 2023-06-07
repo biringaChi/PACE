@@ -1,7 +1,7 @@
 import pathlib
 import typing
-from typing import Any
-import sklearn
+# import sklearn
+from sklearn import metrics, svm, linear_model, neural_network, neighbors, ensemble
 import numpy as np
 from config import Config
 from repohandle import HandleRepo
@@ -25,23 +25,25 @@ class Setup(HandleRepo):
 	def retrieve_targets(self) -> np.ndarray:
 		return self.retrieve_data_object(self.config.tgt_pth)
 	
-	def retrieve_nsr_features(self) -> np.ndarray:
+	def retrieve_sr_features(self) -> np.ndarray:
 		return self.retrieve_data_object(self.config.dsr_pth)
 
 	def retrieve_dsr_features(self):
 		return self.retrieve_data_object()
 
-	def _regression_models(self):
+	def _predictors(self):
 		return {
-			sklearn.svm.SVR().__class__.__name__ : sklearn.svm.SVR(),
-			sklearn.linear_model.BayesianRidge().__class__.__name__ : sklearn.linear_model.BayesianRidge(),
-			sklearn.neural_network.MLPRegressor().__class__.__name__ : sklearn.neural_network.MLPRegressor(),
-			sklearn.neighbors.KNeighborsRegressor().__class__.__name__ : sklearn.neighbors.KNeighborsRegressor(),
-			sklearn.ensemble.RandomForestRegressor().__class__.__name__ : sklearn.ensemble.RandomForestRegressor()
+			svm.SVR().__class__.__name__ : svm.SVR(),
+			linear_model.BayesianRidge().__class__.__name__ : linear_model.BayesianRidge(),
+			neural_network.MLPRegressor().__class__.__name__ : neural_network.MLPRegressor(),
+			neighbors.KNeighborsRegressor().__class__.__name__ : neighbors.KNeighborsRegressor(),
+			ensemble.RandomForestRegressor().__class__.__name__ : ensemble.RandomForestRegressor()
 		}
+	
+	def _fit(self, x, y):
+		return [self._predictors()[predictor].fit(x, y) for predictor in self._predictors()]
 
 	def _metrics(self, actual, pred):
-		metrics = sklearn.metrics
 		return {
 			metrics.mean_squared_error.__name__ : metrics.mean_squared_error(actual, pred),
 			metrics.mean_absolute_error.__name__ : metrics.mean_absolute_error(actual, pred),
@@ -49,33 +51,27 @@ class Setup(HandleRepo):
 			"root_" + metrics.mean_squared_error.__name__ : np.sqrt(metrics.mean_squared_error(actual, pred))
 		}
 
-class ABResults(Setup):
+class RQ1(Setup):
 	def __init__(self) -> None:
 		super().__init__()
 	
-	def nsr_exp(self):
+	def _get_data(self):
 		pass
 
-	def dsr_exp(self):
+	def _predict(self):
 		pass
 
-	def throughput(self):
+	def _evaluate(self):
+		return self.retrieve_sr_features()
+
+	def __call__(self):
 		pass
 
-class DSResults(Setup): 
+class RQ2(Setup): 
 	def __init__(self) -> None:
 		super().__init__()
 
-	def nsr_exp(self):
-		pass
-	
-	def dsr_exp(self):
-		pass
-
-	def throughput(self):
-		pass
-
-class CompSOA(Setup):
+class RQ3(Setup):
 	def __init__(self) -> None:
 		super().__init__()
 	

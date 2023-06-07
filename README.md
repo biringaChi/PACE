@@ -3,16 +3,13 @@
 
 <p align="center"> <img src="..doc/pace.svg" width="80%"> </p>
 
-Official implementation of ```PACE: Program Analysis Framework for Continuous Performance Prediction``` to undergo review. For reviewer(s), please follow the instructions below to reproduce the results presented in the paper. 
+Official implementation of ```PACE: Program Analysis Framework for Continuous Performance Prediction```   Currently Under Review at ACM TOSEM. For referees, please follow the instructions below to reproduce the results presented in the paper. 
 
 ## Abstract
-> Software development teams establish elaborate continuous integration pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. 
-> 
-> This paper presents PACE, a code analysis framework that provides continuous feedback on the performance impact of pending code updates. We design performance microbenchmarks by binding the execution test times of embedded automated test cases given a code update and map the execution test times to numerical statistics and distributional semantic code stylometry features used as input observations to predictive models tasked with code performance predictions. Our experiments achieved state-of-the-art performance in predicting the execution time performance of code updates to the software.
-
+> Software development teams establish elaborate continuous integration pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. This paper presents \texttt{PACE}, a program analysis framework that provides continuous feedback on the performance impact of pending code updates. We design performance microbenchmarks by mapping the execution time of functional test cases given a code update. We map microbenchmarks to code stylometry features and feed them to predictors for performance predictions. Our experiments achieved significant performance in predicting code performance, outperforming current state-of-the-art by 75\% on neural-represented code stylometry features.
 <hr>
 
-> Note: Full paper details will be chronicled post-acceptance. PACE's [feature engineering](#feature-engineering) methods are the most transferable component of this work and are applicable in several other use cases beyond performance research. We leverage knowledge in code (SWE) and language (NLP) understanding to statistically and distributionally extract input features. 
+> Preprint is available [HERE](/..doc/preprint.pdf)
 
 <hr>
 Artifact Author: Chidera Biringa
@@ -26,7 +23,7 @@ $ cd src
 ```
 
 ## Problem Definition
-<p align="center"> <img src="..doc/problem.svg" width="70%"> </p>
+<p align="center"> <img src="..doc/problem.svg" width="60%"> </p>
 
 > Figure 1: Access and manipulation of a Linked-HashMap (LHM) using an Entry-set and Key-set. ESA and ESM denote Entry-set Access and Manipulation. KSA and KSM represent Key-set Access and Manipulation. Lines of code highlighted in green and red are LHM access and manipulation using  Entry-set and Key-set.
 
