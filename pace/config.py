@@ -11,10 +11,19 @@ class Config:
 		self.rdf4j: str = self.pth/"rdf4j"
 		self.dubbo: str = self.pth/"apache/dubbo"
 		self.systemds: str = self.pth/"apache/systemds"
-		self.ftr_pth = pathlib.Path.cwd() / "pak-cpp/features/"
-		self.nsr_pth = self.ftr_pth / "AB/NSR"
-		self.dsr_pth = self.ftr_pth / "AB/DSR"
+		self.ftr_pth = pathlib.Path.cwd() / "features/"
+
+		self.AB_sr_pth = self.ftr_pth / "AB/SR"
+		self.AB_nr_pth = self.ftr_pth / "AB/NR"
+		self.DS_sr_pth = self.ftr_pth / "DS/SR"
+		self.DS_nr_pth = self.ftr_pth / "DS/NR"
+
+		self.ABD_n = 5
+		self.DSD_n = 50
+
 		self.tgt_pth = self.ftr_pth / "AB/targets"
+		self.tgt_ds_pth = self.ftr_pth / "DS/targets"
+
 		self.runtime_c = "Test File;Runtime in ms"
 		self.runtime_c_ms = "Runtime in ms"
 		self.dubbo_h2 = "dubbo|h2"

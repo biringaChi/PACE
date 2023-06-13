@@ -57,24 +57,30 @@ Code-stylometry (CStyle) is the stylometric analysis of a code's syntactic and l
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 
 ### Feature Representation
-The natural consequence of selecting features for predicting modeling is its representation. Thus, we design frequency and neural based-algorithms to numerically transform selected features.  <br />
- ```Pros of representation algorithms include:```
-- Significant reduction in conventional vocabulary size due to application of domain (code stylometry) knowledge understanding. <br />
-- Increased predictor training and prediction speed. <br />
-- Significant reduction in sparse vectors.
-<!-- #### AG1: Numerical Statistic Representation of CSF (NSR) -->
-
-<!-- ### ```AG's 1 & 2```
-<hr>
-<p align="center">
-  <img src="..doc/nsr.png" width="40%" />   &nbsp;
-  <img src="..doc/dsr.png" width="45%" /> 
-</p> -->
+The natural consequence of selecting features for predicting modeling is its representation. Thus, we design frequency and neural based-algorithms to numerically transform selected features.
 
 ## Reproducing Results in Paper
-RQ1: Predictive Prowess
+```RQ1: What is the predictive prowess of code performance given a code update?```
+<hr>
+
+- SR Features on ABD
 ```
-$ TODO
+$ python3.9 experiments.py -c=5 -t=sr
+```
+
+- NR Features on ABD
+```
+$ python3.9 experiments.py -c=5 -t=nr
+```
+
+- SR Features on DSD
+```
+$ python3.9 experiments.py -c=50 -t=sr
+```
+
+- NR Features on DSD
+```
+$ python3.9 experiments.py -c=50 -t=nr
 ```
 
 RQ2: Throughput and Latency Analysis of CSF Selection & Statistic and Neural Representations
