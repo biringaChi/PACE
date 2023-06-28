@@ -10,6 +10,10 @@ from javalang.parser import JavaSyntaxError
 from typing import Tuple, Dict, List, Sequence, Set, Text, Union
 
 class HandleRepo:
+	"""
+	Helper Functions
+	"""
+	
 	def __init__(self) -> None:
 		self.config = Config()
 
@@ -52,6 +56,14 @@ class HandleRepo:
 					except OSError as e:
 						raise e
 		return source_files, source_file_names
+	
+	def read_txtfile(self, file):
+		with open(file) as f:
+			return f.readlines()
+
+	def filter_features(self, file, l_filter):
+		data = [line for line in self.read_txtfile(file) if line.startswith(l_filter)]
+		return list(reversed([float(d.split()[3]) for d in data]))
 
 	def get_runtime(self, runtime_path: Union[str, Tuple[str, str]]) -> List[float]:
 		runtime: pd.DataFrame = pd.read_csv(runtime_path)

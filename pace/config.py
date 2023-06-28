@@ -3,7 +3,7 @@ import pathlib
 
 class Config:
 	"""
-	Configurations and Helper functions
+	Configurations
 	"""
 	def __init__(self) -> None:
 		self.pth: str = pathlib.Path.cwd().parents[0]/"datasets/tep-gnn/JavaTestFiles"
@@ -12,15 +12,33 @@ class Config:
 		self.dubbo: str = self.pth/"apache/dubbo"
 		self.systemds: str = self.pth/"apache/systemds"
 		self.ftr_pth = pathlib.Path.cwd() / "features/"
-
 		self.AB_sr_pth = self.ftr_pth / "AB/SR"
 		self.AB_nr_pth = self.ftr_pth / "AB/NR"
 		self.DS_sr_pth = self.ftr_pth / "DS/SR"
 		self.DS_nr_pth = self.ftr_pth / "DS/NR"
+		self.sota = self.ftr_pth / "SOTA"
 
+		self.sr_dubbo_X = self.sota / "SR/SR_dubbo_X.pkl"
+		self.sr_h2_X = self.sota / "SR/SR_h2_X.pkl"
+		self.sr_rdf4j_X = self.sota / "SR/SR_rdf4j_X.pkl"
+		self.sr_systemds_X = self.sota / "SR/SR_systemds_X.pkl"
+		self.sr_combined_X = self.sota / "SR/SR_combined_X.pkl"
+
+		self.nr_dubbo_X = self.sota / "NR/NR_dubbo_X.pkl"
+		self.nr_h2_X = self.sota / "NR/NR_h2_X.pkl"
+		self.nr_rdf4j_X = self.sota / "NR/NR_rdf4j_X.pkl"
+		self.nr_systemds_X = self.sota / "NR/NR_systemds_X.pkl"
+		self.nr_combined_X = self.sota / "NR/NR_combined_X.pkl"
+
+		self.dubbo_y = self.sota / "targets/dubbo_y.pkl"
+		self.h2_y = self.sota / "targets/h2_y.pkl"
+		self.NR_h2_y = self.sota / "targets/NR_h2_y.pkl"
+		self.rdf4j_y = self.sota / "targets/rdf4j_y.pkl"
+		self.systemds_y = self.sota / "targets/systemds_y.pkl"
+		self.combined_y = self.sota / "targets/combined_y.pkl"
+		
 		self.ABD_n = 5
 		self.DSD_n = 50
-
 		self.tgt_pth = self.ftr_pth / "AB/targets"
 		self.tgt_ds_pth = self.ftr_pth / "DS/targets"
 
@@ -60,11 +78,3 @@ class Config:
 				"EnumConstantDeclaration", "VariableDeclarator"
 			]
 	}
-		
-def read_txtfile(file):
-	with open(file) as f:
-		return f.readlines()
-
-def filter_features(file, l_filter):
-	data = [line for line in read_txtfile(file) if line.startswith(l_filter)]
-	return list(reversed([float(d.split()[3]) for d in data]))

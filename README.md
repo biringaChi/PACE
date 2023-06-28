@@ -43,7 +43,7 @@ We propose continuous or rolling predictions in line with our goal of predicting
 ## Code Stylometry Feature Engineering
 Code-stylometry (CStyle) is the stylometric analysis of a code's syntactic and lexical characteristics. In principle, cstyle is akin to stylometry. Contrastly, in stylometry, we analyze natural languages, while cstyle involves the analyses of programming languages. 
 
-### (Taxonomy of Code Stylometry Features (CSF))
+### Taxonomy of Code Stylometry Features (CSF)
 <hr>
 ### Feature Selection
 
@@ -88,8 +88,24 @@ RQ2: Throughput and Latency Analysis of CSF Selection & Statistic and Neural Rep
 $ TODO
 ```
 
-RQ3: Comparison With the State-of-the-Art Approach
+RQ3: ```What is the cost of selecting and representing code stylometry features?```
+  - H2
 ```
-$ TODO
+$ python3.9 experiments.py -h2=h2
 ```
- 
+  - RDF4J
+```
+$ python3.9 experiments.py -rd=rd
+```
+  - DUBBO
+```
+$ python3.9 experiments.py -db=db
+```
+  - SYSTEMDS
+```
+$ python3.9 experiments.py -ss=ss
+```
+  - COMBINED
+```
+$ python3.9 experiments.py -cb=cb
+```

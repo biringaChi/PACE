@@ -1,9 +1,10 @@
 import typing
 import pathlib
 import numpy as np
+from gensim.models import Word2Vec, KeyedVectors
+
 from config import Config
 from repohandle import HandleRepo
-from gensim.models import Word2Vec, KeyedVectors
 
 class EmbedStyle(HandleRepo):
 	"""
