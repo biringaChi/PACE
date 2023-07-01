@@ -17,6 +17,7 @@ class Config:
 		self.DS_sr_pth = self.ftr_pth / "DS/SR"
 		self.DS_nr_pth = self.ftr_pth / "DS/NR"
 		self.sota = self.ftr_pth / "SOTA"
+		self.pred_tp = self.ftr_pth / "throughput/predictor_timecost.pkl"
 
 		self.sr_dubbo_X = self.sota / "SR/SR_dubbo_X.pkl"
 		self.sr_h2_X = self.sota / "SR/SR_h2_X.pkl"
@@ -36,8 +37,30 @@ class Config:
 		self.rdf4j_y = self.sota / "targets/rdf4j_y.pkl"
 		self.systemds_y = self.sota / "targets/systemds_y.pkl"
 		self.combined_y = self.sota / "targets/combined_y.pkl"
+
+		self.base_font = 25
+		self.sr_trt = "SR-Training"
+		self.sr_prt = "SR-Prediction"
+		self.nr_trt = "NR-Training"
+		self.nr_prt = "NR-Prediction" 
 		
+		self.tick_font = 15
+		self.p0_color = "#760000"
+		self.p1_color = "#196F3D"
+		self.blk_color = "#000000"
+		self.star_marker = "*"
+		self.dash_marker = "--"
+		self.o_marker = "o"
+		self.consolas = "Consolas"
+		self.commits_nm = "Commits"
+		self.commits_ccs = ["Cn-" + str(i + 1) for i in range(4)]
+		self.commits_ccs_dsd = [str(i + 1) for i in range(49)]
+		self.time_in_sec = "Time (seconds)"
+		self.font_family = "font.family"
+
 		self.ABD_n = 5
+		self.random_state = 4
+		self.test_size = 0.2
 		self.DSD_n = 50
 		self.tgt_pth = self.ftr_pth / "AB/targets"
 		self.tgt_ds_pth = self.ftr_pth / "DS/targets"

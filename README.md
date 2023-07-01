@@ -60,7 +60,7 @@ Code-stylometry (CStyle) is the stylometric analysis of a code's syntactic and l
 The natural consequence of selecting features for predicting modeling is its representation. Thus, we design frequency and neural based-algorithms to numerically transform selected features.
 
 ## Reproducing Results in Paper
-```RQ1: What is the predictive prowess of code performance given a code update?```
+RQ1: ```What is the predictive prowess of code performance given a code update?```
 <hr>
 
 - SR Features on ABD
@@ -82,13 +82,44 @@ $ python3.9 experiments.py -c=50 -t=sr
 ```
 $ python3.9 experiments.py -c=50 -t=nr
 ```
+RQ1: ```Continued: Predictors' Throughput and Latency```
 
-RQ2: Throughput and Latency Analysis of CSF Selection & Statistic and Neural Representations
+- MLP
+```
+$ python3.9 experiments.py -mtp=mtp
+```
+
+- SVR
+```
+$ python3.9 experiments.py -svp=svp
+```
+
+- RFR
+```
+$ python3.9 experiments.py -rfp=rfp
+```
+
+- BR
+```
+$ python3.9 experiments.py -brp=brp
+```
+
+- kNN on SR
+```
+$ python3.9 experiments.py -knp0=knp0
+```
+
+- kNN on NR
+```
+$ python3.9 experiments.py -knp1=knp1
+```
+
+RQ2: ```What is the cost of selecting and representing code stylometry features?```
 ```
 $ TODO
 ```
 
-RQ3: ```What is the cost of selecting and representing code stylometry features?```
+RQ3: ```How does PACE perform in comparison with state-of-the-art performance prediction approach in the literature?```
   - H2
 ```
 $ python3.9 experiments.py -h2=h2

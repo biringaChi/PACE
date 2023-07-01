@@ -1,14 +1,22 @@
 import typing
 import argparse
 import numpy as np
+import matplotlib.pyplot as plt
+plt.style.use("ggplot")
 
 from config import Config
 from repohandle import HandleRepo
 from sklearn import neural_network, model_selection, metrics, neighbors
 
-parser = argparse.ArgumentParser(description = "Research Question 1 Results")
+parser = argparse.ArgumentParser(description = "Research Questions' Results")
 parser.add_argument("-c", "--commit",  type = int, metavar = "", required = False, help = "Enter commit, (5: ABD, 50: DSD)")
 parser.add_argument("-t", "--task",  type = str, metavar = "", required = False, help = "Enter task, (SR: Statistic Rep, DR: Neural Rep")
+parser.add_argument("-mtp", "--mlptp",  type = str, metavar = "", required = False)
+parser.add_argument("-svp", "--svrtp",  type = str, metavar = "", required = False)
+parser.add_argument("-rfp", "--rfrtp",  type = str, metavar = "", required = False)
+parser.add_argument("-brp", "--brtp",  type = str, metavar = "", required = False)
+parser.add_argument("-knp0", "--knntp0",  type = str, metavar = "", required = False)
+parser.add_argument("-knp1", "--knntp1",  type = str, metavar = "", required = False)
 parser.add_argument("-h2", "--h2",  type = str, metavar = "", required = False)
 parser.add_argument("-rd", "--rdf4j",  type = str, metavar = "", required = False)
 parser.add_argument("-db", "--dubbo",  type = str, metavar = "", required = False)
@@ -71,24 +79,70 @@ class RQ(Setup):
 			_, _, _, ys, _, Xs = self._get_data()
 		return Xs, ys
 	
-	def _rolling_predict(self, n, task):
+	def _continuous_prediction(self, n, task):
 		Xs, ys = self._get_features(n, task)
 		predictor = self._predictors()[0]
 		out = []
-		for _ in range(n):
+		while True:
 			predictor.fit(Xs[n], ys[n])
 			out.append(self._metrics(ys[n - 1], predictor.predict(Xs[n - 1])))
-			n = n - 1
+			n -= 1
 			if n == 1:
 				break
 		return out
+	
+	def _plot(self, commits, stat_trt, stat_prt, neural_trt, neural_prt):
+		plt.rcParams[self.config.font_family] = self.config.consolas
+		fig, ax = plt.subplots()
+		ax.plot(commits, stat_trt, label = self.config.sr_trt, color = self.config.p0_color, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
+		ax.plot(commits, stat_prt, label = self.config.sr_prt, color = self.config.p0_color, linestyle = self.config.dash_marker, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
+		ax.plot(commits, neural_trt, label = self.config.nr_trt, color = self.config.p1_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		ax.plot(commits, neural_prt, label = self.config.nr_prt, color = self.config.p1_color, linestyle = self.config.dash_marker, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		ax.legend(fontsize = self.config.base_font)
+		plt.xticks(commits, fontsize = self.config.tick_font)
+		plt.yticks(fontsize = self.config.tick_font)
+		ax.set_ylabel(self.config.time_in_sec, fontsize = self.config.base_font)
+		ax.set_xlabel(self.config.commits_nm, fontsize = self.config.base_font)
+		plt.legend(fontsize = self.config.base_font)
+		plt.tight_layout()
+		plt.show()
+	
+	def _mlp_tp(self):
+		mlp, _, _, _, _, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = mlp
+		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
+
+	def _svr_tp(self):
+		_, svr, _, _, _, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = svr
+		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
+
+	def _rfr_tp(self):
+		_, _, rfr, _, _, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = rfr
+		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
+	
+	def _br_tp(self):
+		_, _, _, br, _, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = br
+		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
+	
+	def _knn_abd_tp(self):
+		_, _, _, _, knn_abd, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = knn_abd
+		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
+
+	def _knn_dsd_tp(self):
+		_, _, _, _, _, knn_dsd = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = knn_dsd
+		self._plot(self.config.commits_ccs_dsd, sr_tt, sr_pt, nr_tt, nr_pt)
 
 	def _performance(self, sr, y, nr):
 		p1, p2 = self._predictors()[0], self._predictors()[0]
-		X_train_sr, X_test_sr, y_train, y_test, X_train_nr, X_test_nr = model_selection.train_test_split(sr, y, nr, test_size = 0.2, random_state = 4)	
+		X_train_sr, X_test_sr, y_train, y_test, X_train_nr, X_test_nr = model_selection.train_test_split(sr, y, nr, test_size = self.config.test_size, random_state = self.config.random_state)	
 		p1.fit(X_train_sr, y_train), p2.fit(X_train_nr, y_train)
 		y_pred_sr, y_pred_nr = p1.predict(X_test_sr), p2.predict(X_test_nr)
-		_, sr_mse, _, _, _ = self._metrics(y_test, y_pred_sr) 
+		_, sr_mse, _, _, _ = self._metrics(y_test, y_pred_sr)
 		_, nr_mse, _, _, _ = self._metrics(y_test, y_pred_nr)
 		return {"sr" : sr_mse, "nr": nr_mse}
 	
@@ -110,19 +164,31 @@ class RQ(Setup):
 	
 	def _combined(self):
 		sr_combined, nr_combined, combined_y = self.unpickle(self.config.sr_combined_X), self.unpickle(self.config.nr_combined_X), self.unpickle(self.config.combined_y)
-		return self._performance(sr_combined, combined_y, nr_combined) 
-	
+		return self._performance(sr_combined, combined_y, nr_combined)
+
 if __name__ == "__main__":
-	if args.commit or args.task:
-		print(RQ()._rolling_predict(args.commit, args.task))
+	RQ = RQ()
+	if args.commit and args.task:
+		print(RQ._continuous_prediction(args.commit, args.task))
+	elif args.mlptp:
+		RQ._mlp_tp()
+	elif args.svrtp:
+		RQ._svr_tp()
+	elif args.rfrtp:
+		RQ._rfr_tp()
+	elif args.brtp:
+		RQ._br_tp()
+	elif args.knntp0:
+		RQ._knn_abd_tp()
+	elif args.knntp1:
+		RQ._knn_dsd_tp()
 	elif args.h2:
-		print(RQ()._h2())
+		print(RQ._h2())
 	elif args.rdf4j:
-		print(RQ()._rdf4j())
+		print(RQ._rdf4j())
 	elif args.dubbo:
-		print(RQ()._dubbo())
+		print(RQ._dubbo())
 	elif args.systemds:
-		print(RQ()._systemds())
+		print(RQ._systemds()) 
 	elif args.combined:
-		print(RQ()._combined())
-	
+		print(RQ._combined())
