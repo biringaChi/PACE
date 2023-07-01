@@ -93,10 +93,16 @@ $ python3.9 experiments.py -mtlp=mtlp
 ```
 $ python3.9 experiments.py -svp=svp
 ```
+```
+python3.9 experiments.py -svlp=svlp
+```
 
 - PACE-RFR
 ```
 $ python3.9 experiments.py -rfp=rfp
+```
+```
+$ python3.9 experiments.py -rflp=rflp
 ```
 
 - PACE-BR

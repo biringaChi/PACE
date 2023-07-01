@@ -2,8 +2,6 @@ import typing
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use("ggplot")
-
 from config import Config
 from repohandle import HandleRepo
 from sklearn import neural_network, model_selection, metrics, neighbors
@@ -13,10 +11,10 @@ parser.add_argument("-c", "--commit",  type = int, metavar = "", required = Fals
 parser.add_argument("-t", "--task",  type = str, metavar = "", required = False, help = "Enter task, (SR: Statistic Rep, DR: Neural Rep")
 parser.add_argument("-mtp", "--mlptp",  type = str, metavar = "", required = False)
 parser.add_argument("-mtlp", "--mlplp",  type = str, metavar = "", required = False)
-
-
 parser.add_argument("-svp", "--svrtp",  type = str, metavar = "", required = False)
+parser.add_argument("-svlp", "--svrlp",  type = str, metavar = "", required = False)
 parser.add_argument("-rfp", "--rfrtp",  type = str, metavar = "", required = False)
+parser.add_argument("-rflp", "--rfrlp",  type = str, metavar = "", required = False)
 parser.add_argument("-brp", "--brtp",  type = str, metavar = "", required = False)
 parser.add_argument("-knp0", "--knntp0",  type = str, metavar = "", required = False)
 parser.add_argument("-knp1", "--knntp1",  type = str, metavar = "", required = False)
@@ -95,6 +93,7 @@ class RQ(Setup):
 		return out
 	
 	def _plot(self, commits, stat_trt, stat_prt, neural_trt, neural_prt):
+		plt.style.use("ggplot")
 		plt.rcParams[self.config.font_family] = self.config.consolas
 		fig, ax = plt.subplots()
 		ax.plot(commits, stat_trt, label = self.config.sr_trt, color = self.config.p0_color, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
@@ -126,10 +125,22 @@ class RQ(Setup):
 		sr_tt, sr_pt, nr_tt, nr_pt = svr
 		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
 
+	def _svr_lp(self) -> typing.Tuple[float, float, float]:
+		_, svr, _, _, _, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = svr
+		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
+		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
+
 	def _rfr_tp(self):
 		_, _, rfr, _, _, _ = self.unpickle(self.config.pred_tp)
 		sr_tt, sr_pt, nr_tt, nr_pt = rfr
 		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
+
+	def _rfr_lp(self) -> typing.Tuple[float, float, float]:
+		_, _, rfr, _, _, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = rfr
+		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
+		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
 	
 	def _br_tp(self):
 		_, _, _, br, _, _ = self.unpickle(self.config.pred_tp)
@@ -182,11 +193,15 @@ if __name__ == "__main__":
 	elif args.mlptp:
 		RQ._mlp_tp()
 	elif args.mlplp:
-		print(RQ._mlp_lp()) # 		"-mtlp", "--mlplp",
+		print(RQ._mlp_lp())
 	elif args.svrtp:
 		RQ._svr_tp()
+	elif args.svrlp:
+		print(RQ._svr_lp())
 	elif args.rfrtp:
 		RQ._rfr_tp()
+	elif args.rfrlp:
+		print(RQ._rfr_lp())
 	elif args.brtp:
 		RQ._br_tp()
 	elif args.knntp0:
