@@ -12,6 +12,9 @@ parser = argparse.ArgumentParser(description = "Research Questions' Results")
 parser.add_argument("-c", "--commit",  type = int, metavar = "", required = False, help = "Enter commit, (5: ABD, 50: DSD)")
 parser.add_argument("-t", "--task",  type = str, metavar = "", required = False, help = "Enter task, (SR: Statistic Rep, DR: Neural Rep")
 parser.add_argument("-mtp", "--mlptp",  type = str, metavar = "", required = False)
+parser.add_argument("-mtlp", "--mlplp",  type = str, metavar = "", required = False)
+
+
 parser.add_argument("-svp", "--svrtp",  type = str, metavar = "", required = False)
 parser.add_argument("-rfp", "--rfrtp",  type = str, metavar = "", required = False)
 parser.add_argument("-brp", "--brtp",  type = str, metavar = "", required = False)
@@ -112,6 +115,12 @@ class RQ(Setup):
 		sr_tt, sr_pt, nr_tt, nr_pt = mlp
 		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
 
+	def _mlp_lp(self) -> typing.Tuple[float, float, float]:
+		mlp, _, _, _, _, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = mlp
+		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
+		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
+
 	def _svr_tp(self):
 		_, svr, _, _, _, _ = self.unpickle(self.config.pred_tp)
 		sr_tt, sr_pt, nr_tt, nr_pt = svr
@@ -172,6 +181,8 @@ if __name__ == "__main__":
 		print(RQ._continuous_prediction(args.commit, args.task))
 	elif args.mlptp:
 		RQ._mlp_tp()
+	elif args.mlplp:
+		print(RQ._mlp_lp()) # 		"-mtlp", "--mlplp",
 	elif args.svrtp:
 		RQ._svr_tp()
 	elif args.rfrtp:

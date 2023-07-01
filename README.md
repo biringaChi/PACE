@@ -56,9 +56,6 @@ Code-stylometry (CStyle) is the stylometric analysis of a code's syntactic and l
 | Invocations | SuperConstructorInvocation, MethodInvocation,  SuperMethodInvocation, SuperMemberReference, ExplicitConstructorInvocation, ArraySelector, AnnotationMethod, MethodReference | Defines the invocation of a program from another program |
 | Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
 
-### Feature Representation
-The natural consequence of selecting features for predicting modeling is its representation. Thus, we design frequency and neural based-algorithms to numerically transform selected features.
-
 ## Reproducing Results in Paper
 RQ1: ```What is the predictive prowess of code performance given a code update?```
 <hr>
@@ -82,34 +79,37 @@ $ python3.9 experiments.py -c=50 -t=sr
 ```
 $ python3.9 experiments.py -c=50 -t=nr
 ```
-RQ1: ```Continued: Predictors' Throughput and Latency```
+RQ1: ```Continued: Predictors' Throughput (Command 1) and Latency (Command 2)```
 
-- MLP
+- PACE-MLP
 ```
 $ python3.9 experiments.py -mtp=mtp
 ```
+```
+$ python3.9 experiments.py -mtlp=mtlp
+```
 
-- SVR
+- PACE-SVR
 ```
 $ python3.9 experiments.py -svp=svp
 ```
 
-- RFR
+- PACE-RFR
 ```
 $ python3.9 experiments.py -rfp=rfp
 ```
 
-- BR
+- PACE-BR
 ```
 $ python3.9 experiments.py -brp=brp
 ```
 
-- kNN on SR
+- PACE-kNN on SR
 ```
 $ python3.9 experiments.py -knp0=knp0
 ```
 
-- kNN on NR
+- PACE-kNN on NR
 ```
 $ python3.9 experiments.py -knp1=knp1
 ```
