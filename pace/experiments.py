@@ -7,8 +7,8 @@ from repohandle import HandleRepo
 from sklearn import neural_network, model_selection, metrics, neighbors
 
 parser = argparse.ArgumentParser(description = "Research Questions' Results")
-parser.add_argument("-c", "--commit",  type = int, metavar = "", required = False, help = "Enter commit, (5: ABD, 50: DSD)")
-parser.add_argument("-t", "--task",  type = str, metavar = "", required = False, help = "Enter task, (SR: Statistic Rep, DR: Neural Rep")
+parser.add_argument("-c", "--commit",  type = int, metavar = "", required = False)
+parser.add_argument("-t", "--task",  type = str, metavar = "", required = False)
 parser.add_argument("-mtp", "--mlptp",  type = str, metavar = "", required = False)
 parser.add_argument("-mtlp", "--mlplp",  type = str, metavar = "", required = False)
 parser.add_argument("-svp", "--svrtp",  type = str, metavar = "", required = False)
@@ -16,8 +16,23 @@ parser.add_argument("-svlp", "--svrlp",  type = str, metavar = "", required = Fa
 parser.add_argument("-rfp", "--rfrtp",  type = str, metavar = "", required = False)
 parser.add_argument("-rflp", "--rfrlp",  type = str, metavar = "", required = False)
 parser.add_argument("-brp", "--brtp",  type = str, metavar = "", required = False)
+parser.add_argument("-brlp", "--brlp",  type = str, metavar = "", required = False)
 parser.add_argument("-knp0", "--knntp0",  type = str, metavar = "", required = False)
+parser.add_argument("-klp0", "--knnlp0",  type = str, metavar = "", required = False)
 parser.add_argument("-knp1", "--knntp1",  type = str, metavar = "", required = False)
+parser.add_argument("-klp1", "--knnlp1",  type = str, metavar = "", required = False)
+parser.add_argument("-abst", "--abslt",  type = str, metavar = "", required = False)
+parser.add_argument("-absl", "--absll",  type = str, metavar = "", required = False)
+parser.add_argument("-dsdt", "--ddslt",  type = str, metavar = "", required = False)
+parser.add_argument("-dsdl", "--ddsll",  type = str, metavar = "", required = False)
+parser.add_argument("-absr", "--abdsr",  type = str, metavar = "", required = False)
+parser.add_argument("-absrl", "--abdsrl",  type = str, metavar = "", required = False)
+parser.add_argument("-abnr", "--abdnr",  type = str, metavar = "", required = False)
+parser.add_argument("-abnrl", "--abdnrl",  type = str, metavar = "", required = False)
+parser.add_argument("-dssr", "--dsdsr",  type = str, metavar = "", required = False)
+parser.add_argument("-dssrl", "--dsdsrl",  type = str, metavar = "", required = False) 
+parser.add_argument("-dsnr", "--dsnrsl",  type = str, metavar = "", required = False)
+parser.add_argument("-dsnrl", "--dsdnrl",  type = str, metavar = "", required = False)
 parser.add_argument("-h2", "--h2",  type = str, metavar = "", required = False)
 parser.add_argument("-rd", "--rdf4j",  type = str, metavar = "", required = False)
 parser.add_argument("-db", "--dubbo",  type = str, metavar = "", required = False)
@@ -29,6 +44,9 @@ class Setup(HandleRepo):
 	def __init__(self) -> None:
 		super().__init__()
 		self.config = Config()
+		self.args = args
+		plt.style.use("ggplot")
+		plt.rcParams[self.config.font_family] = self.config.consolas
 	
 	def prep_dir(self, ids, dir) ->  typing.Tuple:
 		return (
@@ -60,15 +78,11 @@ class RQ(Setup):
 		super().__init__()
 	
 	def _get_data(self):
-		return (
-			self.retrieve_data_object(self.config.ABD_n, self.config.tgt_pth),
-			self.retrieve_data_object(self.config.ABD_n, self.config.AB_sr_pth),
-			self.retrieve_data_object(self.config.ABD_n, self.config.AB_nr_pth),
-			self.retrieve_data_object(self.config.DSD_n, self.config.tgt_ds_pth),
-			self.retrieve_data_object(self.config.DSD_n, self.config.DS_sr_pth),
-			self.retrieve_data_object(self.config.DSD_n, self.config.DS_nr_pth)
-	  )
-
+		return (self.retrieve_data_object(self.config.ABD_n, self.config.tgt_pth), self.retrieve_data_object(self.config.ABD_n, self.config.AB_sr_pth), 
+				self.retrieve_data_object(self.config.ABD_n, self.config.AB_nr_pth), self.retrieve_data_object(self.config.DSD_n, self.config.tgt_ds_pth), 
+				self.retrieve_data_object(self.config.DSD_n, self.config.DS_sr_pth), self.retrieve_data_object(self.config.DSD_n, self.config.DS_nr_pth)
+		)
+	  
 	def _get_features(self, n, task):
 		if n == 5 and task == "sr":
 			ys, Xs, _, _, _, _ = self._get_data()
@@ -93,8 +107,6 @@ class RQ(Setup):
 		return out
 	
 	def _plot(self, commits, stat_trt, stat_prt, neural_trt, neural_prt):
-		plt.style.use("ggplot")
-		plt.rcParams[self.config.font_family] = self.config.consolas
 		fig, ax = plt.subplots()
 		ax.plot(commits, stat_trt, label = self.config.sr_trt, color = self.config.p0_color, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
 		ax.plot(commits, stat_prt, label = self.config.sr_prt, color = self.config.p0_color, linestyle = self.config.dash_marker, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
@@ -108,6 +120,10 @@ class RQ(Setup):
 		plt.legend(fontsize = self.config.base_font)
 		plt.tight_layout()
 		plt.show()
+
+	def _mlp_tp(self):
+		stmt, expr, ctrl, invn, decl = self.unpickle(self.config.pred_tp)
+		self._plot1(self.config.commits_ccs, stmt, expr, ctrl, invn, decl)
 	
 	def _mlp_tp(self):
 		mlp, _, _, _, _, _ = self.unpickle(self.config.pred_tp)
@@ -146,16 +162,116 @@ class RQ(Setup):
 		_, _, _, br, _, _ = self.unpickle(self.config.pred_tp)
 		sr_tt, sr_pt, nr_tt, nr_pt = br
 		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
+
+	def _br_lp(self) -> typing.Tuple[float, float, float]:
+		_, _, _, br, _, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = br
+		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
+		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
 	
 	def _knn_abd_tp(self):
 		_, _, _, _, knn_abd, _ = self.unpickle(self.config.pred_tp)
 		sr_tt, sr_pt, nr_tt, nr_pt = knn_abd
 		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
+	
+	def _knn_abd_lp(self) -> typing.Tuple[float, float, float]:
+		_, _, _, _, knn_abd, _ = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = knn_abd
+		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
+		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
 
 	def _knn_dsd_tp(self):
 		_, _, _, _, _, knn_dsd = self.unpickle(self.config.pred_tp)
 		sr_tt, sr_pt, nr_tt, nr_pt = knn_dsd
 		self._plot(self.config.commits_ccs_dsd, sr_tt, sr_pt, nr_tt, nr_pt)
+
+	def _knn_dsd_lp(self) -> typing.Tuple[float, float, float]:
+		_, _, _, _, _, knn_dsd = self.unpickle(self.config.pred_tp)
+		sr_tt, sr_pt, nr_tt, nr_pt = knn_dsd
+		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
+		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
+	
+	def _plot1(self, commits, stmt, expr, ctrl, invn, decl):
+		fig, ax = plt.subplots()
+		ax.plot(commits, stmt, label = self.config.stmt_lab, color = self.config.p0_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		ax.plot(commits, expr, label = self.config.expr_lab, color = self.config.p1_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		ax.plot(commits, ctrl, label = self.config.ctrl_lab, color = self.config.p2_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		ax.plot(commits, invn, label = self.config.invn_lab, color = self.config.p3_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		ax.plot(commits, decl, label = self.config.decl_lab, color = self.config.p4_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		ax.legend(fontsize = self.config.base_font)
+		plt.xticks(commits, fontsize = self.config.tick_font)
+		plt.yticks(fontsize = self.config.tick_font)
+		ax.set_ylabel(self.config.time_in_sec, fontsize = self.config.base_font)
+		ax.set_xlabel(self.config.commits_nm, fontsize = self.config.base_font)
+		plt.legend(fontsize = self.config.base_font)
+		plt.tight_layout()
+		plt.show()
+
+	def _abd_selection(self):
+		abd_slt, _, _, _, _, _ = self.unpickle(self.config.feature_tp)
+		abd_stmt_slt, abd_expr_slt, abd_ctrl_slt, abd_invn_slt, abd_decl_slt = abd_slt
+		self._plot1(self.config.commits_ccs1, abd_stmt_slt, abd_expr_slt, abd_ctrl_slt, abd_invn_slt, abd_decl_slt)
+	
+	def _abd_selection_ssl(self) -> typing.Tuple[float, float, float]:
+		abd_slt, _, _, _, _, _ = self.unpickle(self.config.feature_tp)
+		abd_stmt_slt, abd_expr_slt, abd_ctrl_slt, abd_invn_slt, abd_decl_slt = abd_slt
+		syntactic, lexical = np.mean(abd_stmt_slt + abd_expr_slt + abd_ctrl_slt), np.mean(abd_invn_slt + abd_decl_slt)
+		return syntactic, lexical, np.mean([syntactic, lexical])
+
+	def _dsd_selection(self):
+		_, dsd_slt, _, _, _, _ = self.unpickle(self.config.feature_tp)
+		dsd_stmt_slt, dsd_expr_slt, dsd_ctrl_slt, dsd_invn_slt, dsd_decl_slt = dsd_slt
+		self._plot1(self.config.commits_ccs_dsd1, dsd_stmt_slt, dsd_expr_slt, dsd_ctrl_slt, dsd_invn_slt, dsd_decl_slt)
+	
+	def _dsd_selection_ssl(self) -> typing.Tuple[float, float, float]:
+		_, dsd_slt, _, _, _, _ = self.unpickle(self.config.feature_tp)
+		dsd_stmt_slt, dsd_expr_slt, dsd_ctrl_slt, dsd_invn_slt, dsd_decl_slt = dsd_slt
+		syntactic, lexical = np.mean(dsd_stmt_slt + dsd_expr_slt + dsd_ctrl_slt), np.mean(dsd_invn_slt + dsd_decl_slt)
+		return syntactic, lexical, np.mean([syntactic, lexical])
+	
+	def _abd_sr(self):
+		_, _, abd_sr, _, _, _ = self.unpickle(self.config.feature_tp)
+		abd_sr_stmt, abd_sr_expr, abd_sr_ctrl, abd_sr_invn, abd_sr_decl = abd_sr
+		self._plot1(self.config.commits_ccs1, abd_sr_stmt, abd_sr_expr, abd_sr_ctrl, abd_sr_invn, abd_sr_decl)
+	
+	def _abd_sr_ssl(self) -> typing.Tuple[float, float, float]:
+		_, _, abd_sr, _, _, _ = self.unpickle(self.config.feature_tp)
+		abd_sr_stmt, abd_sr_expr, abd_sr_ctrl, abd_sr_invn, abd_sr_decl = abd_sr
+		syntactic, lexical = np.mean(abd_sr_stmt + abd_sr_expr + abd_sr_ctrl), np.mean(abd_sr_invn + abd_sr_decl)
+		return syntactic, lexical, np.mean([syntactic, lexical])
+
+	def _abd_nr(self):
+		_, _, _, abd_nr, _, _ = self.unpickle(self.config.feature_tp)
+		abd_nr_stmt, abd_nr_expr, abd_nr_ctrl, abd_nr_invn, abd_nr_decl = abd_nr
+		self._plot1(self.config.commits_ccs1, abd_nr_stmt, abd_nr_expr, abd_nr_ctrl, abd_nr_invn, abd_nr_decl)
+	
+	def _abd_nr_ssl(self) -> typing.Tuple[float, float, float]:
+		_, _, _, abd_nr, _, _ = self.unpickle(self.config.feature_tp)
+		abd_nr_stmt, abd_nr_expr, abd_nr_ctrl, abd_nr_invn, abd_nr_decl = abd_nr
+		syntactic, lexical = np.mean(abd_nr_stmt + abd_nr_expr + abd_nr_ctrl), np.mean(abd_nr_invn + abd_nr_decl)
+		return syntactic, lexical, np.mean([syntactic, lexical])
+
+	def _dsd_sr(self):
+		_, _, _, _, dsd_sr_rep, _ = self.unpickle(self.config.feature_tp)
+		dsd_sr_stmt, dsd_sr_expr, dsd_sr_ctrl, dsd_sr_invn, dsd_sr_decl = dsd_sr_rep
+		self._plot1(self.config.commits_ccs_dsd1, dsd_sr_stmt, dsd_sr_expr, dsd_sr_ctrl, dsd_sr_invn, dsd_sr_decl)
+
+	def _dsd_sr_ssl(self) -> typing.Tuple[float, float, float]:
+		_, _, _, _, dsd_sr_rep, _ = self.unpickle(self.config.feature_tp)
+		dsd_sr_stmt, dsd_sr_expr, dsd_sr_ctrl, dsd_sr_invn, dsd_sr_decl = dsd_sr_rep
+		syntactic, lexical = np.mean(dsd_sr_stmt + dsd_sr_expr + dsd_sr_ctrl), np.mean(dsd_sr_invn + dsd_sr_decl)
+		return syntactic, lexical, np.mean([syntactic, lexical])
+	
+	def _dsd_nr(self):
+		_, _, _, _, _, dsd_nr_rep = self.unpickle(self.config.feature_tp)
+		dsd_nr_stmt, dsd_nr_expr, dsd_nr_ctrl, dsd_nr_invn, dsd_nr_decl = dsd_nr_rep
+		self._plot1(self.config.commits_ccs_dsd1, dsd_nr_stmt, dsd_nr_expr, dsd_nr_ctrl, dsd_nr_invn, dsd_nr_decl)
+
+	def _dsd_nr_ssl(self) -> typing.Tuple[float, float, float]:
+		_, _, _, _, _, dsd_nr_rep = self.unpickle(self.config.feature_tp)
+		dsd_nr_stmt, dsd_nr_expr, dsd_nr_ctrl, dsd_nr_invn, dsd_nr_decl = dsd_nr_rep
+		syntactic, lexical = np.mean(dsd_nr_stmt + dsd_nr_expr + dsd_nr_ctrl), np.mean(dsd_nr_invn + dsd_nr_decl)
+		return syntactic, lexical, np.mean([syntactic, lexical])
 
 	def _performance(self, sr, y, nr):
 		p1, p2 = self._predictors()[0], self._predictors()[0]
@@ -185,36 +301,68 @@ class RQ(Setup):
 	def _combined(self):
 		sr_combined, nr_combined, combined_y = self.unpickle(self.config.sr_combined_X), self.unpickle(self.config.nr_combined_X), self.unpickle(self.config.combined_y)
 		return self._performance(sr_combined, combined_y, nr_combined)
+	
+	def __call__(self):
+		if args.commit and args.task:
+			print(self._continuous_prediction(args.commit, args.task))
+		elif args.mlptp:
+			self._mlp_tp()
+		elif args.mlplp:
+			print(self._mlp_lp())
+		elif args.svrtp:
+			self._svr_tp()
+		elif args.svrlp:
+			print(self._svr_lp())
+		elif args.rfrtp:
+			self._rfr_tp()
+		elif args.rfrlp:
+			print(self._rfr_lp())
+		elif args.brtp:
+			self._br_tp()
+		elif args.brlp:
+			print(self._br_lp())
+		elif args.knntp0:
+			self._knn_abd_tp()
+		elif args.knnlp0:
+			print(self._knn_abd_lp())
+		elif args.knntp1:
+			self._knn_dsd_tp()
+		elif args.knnlp1:
+			print(self._knn_dsd_lp())
+		elif args.abslt:
+			self._abd_selection()
+		elif args.absll:
+			print(self._abd_selection_ssl()) 
+		elif args.ddslt:
+			self._dsd_selection()
+		elif args.ddsll:
+			print(self._dsd_selection_ssl())
+		elif args.abdsr:
+			self._abd_sr()
+		elif args.abdsrl:
+			print(self._abd_sr_ssl())
+		elif args.abdnr:
+			self._abd_nr()
+		elif args.abdnrl:
+			print(self._abd_nr_ssl())
+		elif args.dsdsr:
+			self._dsd_sr()
+		elif args.dsdsrl:
+			print(self._dsd_sr_ssl())
+		elif args.dsnrsl:
+			self._dsd_nr()
+		elif args.dsdnrl:
+			print(self._dsd_nr_ssl())
+		elif args.h2:
+			print(self._h2())
+		elif args.rdf4j:
+			print(self._rdf4j())
+		elif args.dubbo:
+			print(self._dubbo())
+		elif args.systemds:
+			print(self._systemds()) 
+		elif args.combined:
+			print(self._combined())
 
 if __name__ == "__main__":
-	RQ = RQ()
-	if args.commit and args.task:
-		print(RQ._continuous_prediction(args.commit, args.task))
-	elif args.mlptp:
-		RQ._mlp_tp()
-	elif args.mlplp:
-		print(RQ._mlp_lp())
-	elif args.svrtp:
-		RQ._svr_tp()
-	elif args.svrlp:
-		print(RQ._svr_lp())
-	elif args.rfrtp:
-		RQ._rfr_tp()
-	elif args.rfrlp:
-		print(RQ._rfr_lp())
-	elif args.brtp:
-		RQ._br_tp()
-	elif args.knntp0:
-		RQ._knn_abd_tp()
-	elif args.knntp1:
-		RQ._knn_dsd_tp()
-	elif args.h2:
-		print(RQ._h2())
-	elif args.rdf4j:
-		print(RQ._rdf4j())
-	elif args.dubbo:
-		print(RQ._dubbo())
-	elif args.systemds:
-		print(RQ._systemds()) 
-	elif args.combined:
-		print(RQ._combined())
+	RQ().__call__()

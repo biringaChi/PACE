@@ -40,7 +40,7 @@ We propose continuous or rolling predictions in line with our goal of predicting
 
 <p align="center"> <img src="..doc/roll.svg" width="60%"> </p>
 
-## Code Stylometry Feature Engineering
+<!-- ## Code Stylometry Feature Engineering
 Code-stylometry (CStyle) is the stylometric analysis of a code's syntactic and lexical characteristics. In principle, cstyle is akin to stylometry. Contrastly, in stylometry, we analyze natural languages, while cstyle involves the analyses of programming languages. 
 
 ### Taxonomy of Code Stylometry Features (CSF)
@@ -54,7 +54,7 @@ Code-stylometry (CStyle) is the stylometric analysis of a code's syntactic and l
 | Controls | ForControl, EnhancedForControl 	  | Defines the repetition of instructions dependent on the satisfaction of requirements |
 | Expressions | StatementExpression, TernaryExpression, LambdaExpression	  | Independent language entities with unique definitions |
 | Invocations | SuperConstructorInvocation, MethodInvocation,  SuperMethodInvocation, SuperMemberReference, ExplicitConstructorInvocation, ArraySelector, AnnotationMethod, MethodReference | Defines the invocation of a program from another program |
-| Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity |
+| Declarations | TypeDeclaration, FieldDeclaration, MethodDeclaration, ConstructorDeclaration, PackageDeclaration, ClassDeclaration, EnumDeclaration, InterfaceDeclaration, AnnotationDeclaration, ConstantDeclaration, VariableDeclaration, LocalVariableDeclaration, EnumConstantDeclaration, VariableDeclarator  | Declares the existence of an entity in memory and assigns a value to that entity | -->
 
 ## Reproducing Results in Paper
 RQ1: ```What is the predictive prowess of code performance given a code update?```
@@ -109,20 +109,67 @@ $ python3.9 experiments.py -rflp=rflp
 ```
 $ python3.9 experiments.py -brp=brp
 ```
-
-- PACE-kNN on SR
+```
+$ python3.9 experiments.py -brlp=brlp
+```
+- PACE-kNN on ABD
 ```
 $ python3.9 experiments.py -knp0=knp0
 ```
+```
+$ python3.9 experiments.py -klp0=klp0
+```
 
-- PACE-kNN on NR
+- PACE-kNN on DSD 
 ```
 $ python3.9 experiments.py -knp1=knp1
 ```
+```
+$ python3.9 experiments.py -klp1=klp1  
+```
 
 RQ2: ```What is the cost of selecting and representing code stylometry features?```
+
+```Throughput (Command 1) and Latency (Command 2)``` 
+
+Selection on ABD and DSD
 ```
-$ TODO
+$ python3.9 experiments.py -abst=abst
+```
+```
+$ python3.9 experiments.py -absl=absl
+```
+```
+$ python3.9 experiments.py -dsdt=dsdt
+```
+```
+$ python3.9 experiments.py -dsdl=dsdl
+```
+
+SR and NR on ABD and DSD
+```
+$ python3.9 experiments.py -absr=absr
+```
+```
+$ python3.9 experiments.py -absrl=absrl
+```
+```
+$ python3.9 experiments.py -abnr=abnr
+```
+```
+$ python3.9 experiments.py -abnrl=abnrl
+```
+```
+$ python3.9 experiments.py -dssr=dssr
+```
+```
+$ python3.9 experiments.py -dssrl=dssrl
+```
+```
+$ python3.9 experiments.py -dsnr=dsnr
+```
+```
+$ python3.9 experiments.py -dsnrsl=dsnrsl
 ```
 
 RQ3: ```How does PACE perform in comparison with state-of-the-art performance prediction approach in the literature?```
