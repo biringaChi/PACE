@@ -1,7 +1,7 @@
-<h3 align = "center"> PACE: Program Analysis Framework for Continuous Performance Prediction </h3>
-<hr>
+<h2 align = "center"> PACE: Program Analysis Framework for Continuous Performance Prediction </h2>
+<!-- <hr> -->
 
-<!-- <p align="center"> <img src="..doc/pace.svg" width="80%"> </p> -->
+<p align="center"> <img src="..doc/pace1.jpeg" width="95%"> </p>
 
 Official implementation of ```PACE: Program Analysis Framework for Continuous Performance Prediction```   Currently Under Review at ACM TOSEM. For referees, please follow the instructions below to reproduce the results presented in the paper. 
 
