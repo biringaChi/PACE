@@ -47,6 +47,10 @@ class Setup(HandleRepo):
 		self.args = args
 		plt.style.use("ggplot")
 		plt.rcParams[self.config.font_family] = self.config.consolas
+		plt.rcParams[self.config.text_color] = self.config.blk_color
+		plt.rcParams[self.config.axes_labelcolor] = self.config.blk_color
+		plt.rcParams[self.config.xtick_color] = self.config.blk_color
+		plt.rcParams[self.config.ytick_color] = self.config.blk_color
 	
 	def prep_dir(self, ids, dir) ->  typing.Tuple:
 		return (
@@ -62,6 +66,14 @@ class Setup(HandleRepo):
 			out[id]  = temp
 		return out
 	
+	def problem_formulation(self, dsd_dir):
+		dsd_prep = sorted([file for file in dsd_dir.iterdir() if file.suffix == ".pkl"], reverse = True)
+		out = {}
+		for path in dsd_prep:
+			data, idx = self.unpickle(path), int(str(path).split("-")[-2][2:])
+			out[idx] = data
+		pass
+		
 	def _predictors(self):
 		return [neighbors.KNeighborsRegressor(), neural_network.MLPRegressor()]
 	
@@ -78,9 +90,12 @@ class RQ(Setup):
 		super().__init__()
 	
 	def _get_data(self):
-		return (self.retrieve_data_object(self.config.ABD_n, self.config.tgt_pth), self.retrieve_data_object(self.config.ABD_n, self.config.AB_sr_pth), 
-				self.retrieve_data_object(self.config.ABD_n, self.config.AB_nr_pth), self.retrieve_data_object(self.config.DSD_n, self.config.tgt_ds_pth), 
-				self.retrieve_data_object(self.config.DSD_n, self.config.DS_sr_pth), self.retrieve_data_object(self.config.DSD_n, self.config.DS_nr_pth)
+		return (self.retrieve_data_object(self.config.ABD_n, self.config.tgt_pth), 
+	  			self.retrieve_data_object(self.config.ABD_n, self.config.AB_sr_pth), 
+				self.retrieve_data_object(self.config.ABD_n, self.config.AB_nr_pth), 
+				self.retrieve_data_object(self.config.DSD_n, self.config.tgt_ds_pth), 
+				self.retrieve_data_object(self.config.DSD_n, self.config.DS_sr_pth), 
+				self.retrieve_data_object(self.config.DSD_n, self.config.DS_nr_pth)
 		)
 	  
 	def _get_features(self, n, task):
@@ -109,22 +124,24 @@ class RQ(Setup):
 	def _plot(self, commits, stat_trt, stat_prt, neural_trt, neural_prt):
 		fig, ax = plt.subplots()
 		ax.plot(commits, stat_trt, label = self.config.sr_trt, color = self.config.p0_color, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
-		ax.plot(commits, stat_prt, label = self.config.sr_prt, color = self.config.p0_color, linestyle = self.config.dash_marker, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
-		ax.plot(commits, neural_trt, label = self.config.nr_trt, color = self.config.p1_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		ax.plot(commits, stat_prt, label = self.config.sr_prt, color = self.config.p1_color, linestyle = self.config.dash_marker, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		
+		ax.plot(commits, neural_trt, label = self.config.nr_trt, color = self.config.p0_color, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
 		ax.plot(commits, neural_prt, label = self.config.nr_prt, color = self.config.p1_color, linestyle = self.config.dash_marker, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
-		ax.legend(fontsize = self.config.base_font)
-		plt.xticks(commits, fontsize = self.config.tick_font)
-		plt.yticks(fontsize = self.config.tick_font)
+
+		# ax.plot(commits, neural_trt, label = self.config.nr_trt, color = self.config.p1_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		# ax.plot(commits, neural_prt, label = self.config.nr_prt, color = self.config.p1_color, linestyle = self.config.dash_marker, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
+		
+		plt.xticks(commits, fontsize = 20, rotation = 45)
+		plt.yticks(fontsize = 20)
+		plt.locator_params(axis = "x", nbins = 10)
 		ax.set_ylabel(self.config.time_in_sec, fontsize = self.config.base_font)
 		ax.set_xlabel(self.config.commits_nm, fontsize = self.config.base_font)
-		plt.legend(fontsize = self.config.base_font)
+		ax.legend(fontsize = self.config.base_font)
+
 		plt.tight_layout()
 		plt.show()
 
-	def _mlp_tp(self):
-		stmt, expr, ctrl, invn, decl = self.unpickle(self.config.pred_tp)
-		self._plot1(self.config.commits_ccs, stmt, expr, ctrl, invn, decl)
-	
 	def _mlp_tp(self):
 		mlp, _, _, _, _, _ = self.unpickle(self.config.pred_tp)
 		sr_tt, sr_pt, nr_tt, nr_pt = mlp
@@ -183,14 +200,14 @@ class RQ(Setup):
 	def _knn_dsd_tp(self):
 		_, _, _, _, _, knn_dsd = self.unpickle(self.config.pred_tp)
 		sr_tt, sr_pt, nr_tt, nr_pt = knn_dsd
-		self._plot(self.config.commits_ccs_dsd, sr_tt, sr_pt, nr_tt, nr_pt)
+		self._plot(self.config.commits_ccs_dsd2, sr_tt, sr_pt, nr_tt, nr_pt)
 
 	def _knn_dsd_lp(self) -> typing.Tuple[float, float, float]:
 		_, _, _, _, _, knn_dsd = self.unpickle(self.config.pred_tp)
 		sr_tt, sr_pt, nr_tt, nr_pt = knn_dsd
 		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
 		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
-	
+
 	def _plot1(self, commits, stmt, expr, ctrl, invn, decl):
 		fig, ax = plt.subplots()
 		ax.plot(commits, stmt, label = self.config.stmt_lab, color = self.config.p0_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
@@ -199,11 +216,19 @@ class RQ(Setup):
 		ax.plot(commits, invn, label = self.config.invn_lab, color = self.config.p3_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
 		ax.plot(commits, decl, label = self.config.decl_lab, color = self.config.p4_color, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
 		ax.legend(fontsize = self.config.base_font)
-		plt.xticks(commits, fontsize = self.config.tick_font)
-		plt.yticks(fontsize = self.config.tick_font)
+		# plt.xticks(commits, fontsize = self.config.tick_font)
+		# plt.yticks(fontsize = self.config.tick_font)
+		
+		plt.xticks(commits, fontsize = 20, rotation = 0)
+		plt.yticks(fontsize = 20)
+
+		# ax.set_ylabel(self.config.time_in_sec, fontsize = self.config.base_font)
+		# ax.set_xlabel(self.config.commits_nm, fontsize = self.config.base_font)
+
+		plt.locator_params(axis = "x", nbins = 5)
 		ax.set_ylabel(self.config.time_in_sec, fontsize = self.config.base_font)
 		ax.set_xlabel(self.config.commits_nm, fontsize = self.config.base_font)
-		plt.legend(fontsize = self.config.base_font)
+		plt.legend(fontsize = 20)
 		plt.tight_layout()
 		plt.show()
 
@@ -221,7 +246,7 @@ class RQ(Setup):
 	def _dsd_selection(self):
 		_, dsd_slt, _, _, _, _ = self.unpickle(self.config.feature_tp)
 		dsd_stmt_slt, dsd_expr_slt, dsd_ctrl_slt, dsd_invn_slt, dsd_decl_slt = dsd_slt
-		self._plot1(self.config.commits_ccs_dsd1, dsd_stmt_slt, dsd_expr_slt, dsd_ctrl_slt, dsd_invn_slt, dsd_decl_slt)
+		self._plot1(self.config.commits_ccs_dsd3, dsd_stmt_slt, dsd_expr_slt, dsd_ctrl_slt, dsd_invn_slt, dsd_decl_slt)
 	
 	def _dsd_selection_ssl(self) -> typing.Tuple[float, float, float]:
 		_, dsd_slt, _, _, _, _ = self.unpickle(self.config.feature_tp)
@@ -254,7 +279,7 @@ class RQ(Setup):
 	def _dsd_sr(self):
 		_, _, _, _, dsd_sr_rep, _ = self.unpickle(self.config.feature_tp)
 		dsd_sr_stmt, dsd_sr_expr, dsd_sr_ctrl, dsd_sr_invn, dsd_sr_decl = dsd_sr_rep
-		self._plot1(self.config.commits_ccs_dsd1, dsd_sr_stmt, dsd_sr_expr, dsd_sr_ctrl, dsd_sr_invn, dsd_sr_decl)
+		self._plot1(self.config.commits_ccs_dsd3, dsd_sr_stmt, dsd_sr_expr, dsd_sr_ctrl, dsd_sr_invn, dsd_sr_decl)
 
 	def _dsd_sr_ssl(self) -> typing.Tuple[float, float, float]:
 		_, _, _, _, dsd_sr_rep, _ = self.unpickle(self.config.feature_tp)
@@ -265,7 +290,7 @@ class RQ(Setup):
 	def _dsd_nr(self):
 		_, _, _, _, _, dsd_nr_rep = self.unpickle(self.config.feature_tp)
 		dsd_nr_stmt, dsd_nr_expr, dsd_nr_ctrl, dsd_nr_invn, dsd_nr_decl = dsd_nr_rep
-		self._plot1(self.config.commits_ccs_dsd1, dsd_nr_stmt, dsd_nr_expr, dsd_nr_ctrl, dsd_nr_invn, dsd_nr_decl)
+		self._plot1(self.config.commits_ccs_dsd3, dsd_nr_stmt, dsd_nr_expr, dsd_nr_ctrl, dsd_nr_invn, dsd_nr_decl)
 
 	def _dsd_nr_ssl(self) -> typing.Tuple[float, float, float]:
 		_, _, _, _, _, dsd_nr_rep = self.unpickle(self.config.feature_tp)
@@ -303,6 +328,7 @@ class RQ(Setup):
 		return self._performance(sr_combined, combined_y, nr_combined)
 	
 	def __call__(self):
+		# should replace with a switch case only available in python 3.10, which mostly sucks, oh well...
 		if args.commit and args.task:
 			print(self._continuous_prediction(args.commit, args.task))
 		elif args.mlptp:

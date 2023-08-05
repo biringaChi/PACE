@@ -1,5 +1,7 @@
-<h2 align = "center"> PACE: Program Analysis Framework for Continuous Performance Prediction </h2>
-<!-- <hr> -->
+<h3 align = "center"> PACE: Program Analysis Framework for Continuous Performance Prediction </h3>
+
+---
+
 
 <p align="center"> <img src="..doc/pace1.jpeg" width="95%"> </p>
 
