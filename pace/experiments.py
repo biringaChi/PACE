@@ -53,12 +53,14 @@ class Setup(HandleRepo):
 		plt.rcParams[self.config.ytick_color] = self.config.blk_color
 	
 	def prep_dir(self, ids, dir) ->  typing.Tuple:
+		# Prepare feature directories
 		return (
 			sorted([i + 1 for i in range(ids)], reverse = True),
 			sorted([file for file in dir.iterdir() if file.suffix == ".pkl"], reverse = True)
 			)
 
 	def retrieve_data_object(self, ids, dir) -> np.ndarray:
+		# Get all data objects
 		ids, abds = self.prep_dir(ids, dir)
 		out = {}  
 		for id, abd in zip(ids, abds):
@@ -67,6 +69,7 @@ class Setup(HandleRepo):
 		return out
 	
 	def problem_formulation(self, dsd_dir):
+		# Problem breakdown for regression model selection, see section 2
 		dsd_prep = sorted([file for file in dsd_dir.iterdir() if file.suffix == ".pkl"], reverse = True)
 		out = {}
 		for path in dsd_prep:
@@ -78,6 +81,7 @@ class Setup(HandleRepo):
 		return [neighbors.KNeighborsRegressor(), neural_network.MLPRegressor()]
 	
 	def _metrics(self, actual, pred) -> typing.Tuple:
+		# Metrics to measure the predictive prowess of predictors
 		rmse = np.sqrt(metrics.mean_squared_error(actual, pred))
 		mse = metrics.mean_squared_error(actual, pred)
 		mae = metrics.mean_absolute_error(actual, pred)
@@ -86,6 +90,9 @@ class Setup(HandleRepo):
 		return rmse, mse, mae, rmsle, avg
 
 class RQ(Setup):
+	"""
+	Answers to research questions
+	"""
 	def __init__(self) -> None:
 		super().__init__()
 	
@@ -99,6 +106,7 @@ class RQ(Setup):
 		)
 	  
 	def _get_features(self, n, task):
+		# feature and dataset selection
 		if n == 5 and task == "sr":
 			ys, Xs, _, _, _, _ = self._get_data()
 		elif n == 5 and task == "nr":
@@ -109,8 +117,8 @@ class RQ(Setup):
 			_, _, _, ys, _, Xs = self._get_data()
 		return Xs, ys
 	
-	def _continuous_prediction(self, n, task):
-		Xs, ys = self._get_features(n, task)
+	def _continuous_prediction(self, n, snr_fts):
+		Xs, ys = self._get_features(n, snr_fts)
 		predictor = self._predictors()[0]
 		out = []
 		while True:
@@ -122,6 +130,7 @@ class RQ(Setup):
 		return out
 	
 	def _plot(self, commits, stat_trt, stat_prt, neural_trt, neural_prt):
+		# Line graph 1 
 		fig, ax = plt.subplots()
 		ax.plot(commits, stat_trt, label = self.config.sr_trt, color = self.config.p0_color, marker = self.config.star_marker, markerfacecolor = self.config.blk_color)
 		ax.plot(commits, stat_prt, label = self.config.sr_prt, color = self.config.p1_color, linestyle = self.config.dash_marker, marker = self.config.o_marker, markerfacecolor = self.config.blk_color)
@@ -154,7 +163,7 @@ class RQ(Setup):
 		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
 
 	def _svr_tp(self):
-		_, svr, _, _, _, _ = self.unpickle(self.config.pred_tp)
+		_, svr, _, _, _, _ = self.unpickle(self.config.pred_tp)	
 		sr_tt, sr_pt, nr_tt, nr_pt = svr
 		self._plot(self.config.commits_ccs, sr_tt, sr_pt, nr_tt, nr_pt)
 
@@ -207,6 +216,22 @@ class RQ(Setup):
 		sr_tt, sr_pt, nr_tt, nr_pt = knn_dsd
 		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
 		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
+	
+	def performance_impact(self) -> typing.Tuple:
+		commit = 0
+		filters = ["TRT:", "PRT:", "AVG:", "MSE:", "MAE:", "RMSLE:"]
+		avg_perf = list(reversed(self.filter_features(self.config.nr_path, filters[2])))
+		mse_perf = list(reversed(self.filter_features(self.config.nr_path, filters[3])))
+		mae_perf = list(reversed(self.filter_features(self.config.nr_path, filters[4])))
+		rmsle_perf = list(reversed(self.filter_features(self.config.nr_path, filters[5])))
+		mse_posneg, mae_posneg, rmsle_posneg, avg_posneg = [0], [0], [0], [0]
+		while commit < 48:
+			mse_posneg.append(mse_perf[commit] - mse_perf[commit + 1])
+			mae_posneg.append(mae_perf[commit] - mae_perf[commit + 1])
+			rmsle_posneg.append(rmsle_perf[commit] - rmsle_perf[commit + 1])
+			avg_posneg.append(avg_perf[commit] - avg_perf[commit + 1])
+			commit += 1
+		return mse_posneg, mae_posneg, rmsle_posneg, avg_posneg
 
 	def _plot1(self, commits, stmt, expr, ctrl, invn, decl):
 		fig, ax = plt.subplots()
@@ -299,6 +324,7 @@ class RQ(Setup):
 		return syntactic, lexical, np.mean([syntactic, lexical])
 
 	def _performance(self, sr, y, nr):
+		# Predictor testing 
 		p1, p2 = self._predictors()[0], self._predictors()[0]
 		X_train_sr, X_test_sr, y_train, y_test, X_train_nr, X_test_nr = model_selection.train_test_split(sr, y, nr, test_size = self.config.test_size, random_state = self.config.random_state)	
 		p1.fit(X_train_sr, y_train), p2.fit(X_train_nr, y_train)

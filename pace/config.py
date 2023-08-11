@@ -12,6 +12,8 @@ class Config:
 		self.dubbo: str = self.pth/"apache/dubbo"
 		self.systemds: str = self.pth/"apache/systemds"
 		self.ftr_pth = pathlib.Path.cwd() / "features/"
+		self.sr_path = pathlib.Path.cwd() / "results/predictive-accuracy/DS/ds-nsr.txt"
+		self.nr_path = pathlib.Path.cwd() / "results/predictive-accuracy/DS/ds-dsr.txt"
 		self.AB_sr_pth = self.ftr_pth / "AB/SR"
 		self.AB_nr_pth = self.ftr_pth / "AB/NR"
 		self.DS_sr_pth = self.ftr_pth / "DS/SR"
