@@ -217,7 +217,7 @@ class RQ(Setup):
 		sr_ttpt, nr_ttpt = np.mean(sr_tt + sr_pt), np.mean(nr_tt + nr_pt)
 		return sr_ttpt, nr_ttpt, np.mean([sr_ttpt, nr_ttpt])
 	
-	def performance_impact(self) -> typing.Tuple:
+	def performance_impact(self, ds_idx = 48) -> typing.Tuple:
 		commit = 0
 		filters = ["TRT:", "PRT:", "AVG:", "MSE:", "MAE:", "RMSLE:"]
 		avg_perf = list(reversed(self.filter_features(self.config.nr_path, filters[2])))
@@ -225,13 +225,17 @@ class RQ(Setup):
 		mae_perf = list(reversed(self.filter_features(self.config.nr_path, filters[4])))
 		rmsle_perf = list(reversed(self.filter_features(self.config.nr_path, filters[5])))
 		mse_posneg, mae_posneg, rmsle_posneg, avg_posneg = [0], [0], [0], [0]
-		while commit < 48:
+		commits = [str(("Cn-" + str(i), "Cn-" + str(i + 1))).replace('(','').replace(')','').replace("'", "") for i in range(ds_idx + 1)]
+		while commit < ds_idx:
 			mse_posneg.append(mse_perf[commit] - mse_perf[commit + 1])
 			mae_posneg.append(mae_perf[commit] - mae_perf[commit + 1])
 			rmsle_posneg.append(rmsle_perf[commit] - rmsle_perf[commit + 1])
 			avg_posneg.append(avg_perf[commit] - avg_perf[commit + 1])
 			commit += 1
-		return mse_posneg, mae_posneg, rmsle_posneg, avg_posneg
+		return mse_posneg, mae_posneg, rmsle_posneg, avg_posneg, commits
+	
+	def plot_newRQ(self):
+		pass
 
 	def _plot1(self, commits, stmt, expr, ctrl, invn, decl):
 		fig, ax = plt.subplots()
