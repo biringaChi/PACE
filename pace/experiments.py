@@ -235,7 +235,19 @@ class RQ(Setup):
 		return mse_posneg, mae_posneg, rmsle_posneg, avg_posneg, commits
 	
 	def plot_newRQ(self):
-		pass
+		# revisit
+		fig, ax = plt.subplots()
+		mse_posneg, mae_posneg, rmsle_posneg, avg_posneg, commits = self.performance_impact()
+		colors = ["#760000" if data < 0 else  "#196F3D" for data in avg_posneg]
+		plt.hlines(y = commits, xmin = 0, xmax = avg_posneg, color = colors, linewidth = 5)
+		
+		ax.set_ylabel(self.config.commits_nm, fontsize =  self.config.base_font)
+		ax.set_xlabel("Performance Impacts", fontsize =  self.config.base_font)
+		plt.xticks(fontsize = 15)
+		plt.yticks(commits, fontsize = 15)
+	#     plt.locator_params(axis = "y", nbins = 10)
+		plt.tight_layout()
+		plt.show()
 
 	def _plot1(self, commits, stmt, expr, ctrl, invn, decl):
 		fig, ax = plt.subplots()
@@ -358,7 +370,6 @@ class RQ(Setup):
 		return self._performance(sr_combined, combined_y, nr_combined)
 	
 	def __call__(self):
-		# should replace with a switch case only available in python 3.10, which mostly sucks, oh well...
 		if args.commit and args.task:
 			print(self._continuous_prediction(args.commit, args.task))
 		elif args.mlptp:
