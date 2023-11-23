@@ -33,6 +33,7 @@ parser.add_argument("-dssr", "--dsdsr",  type = str, metavar = "", required = Fa
 parser.add_argument("-dssrl", "--dsdsrl",  type = str, metavar = "", required = False) 
 parser.add_argument("-dsnr", "--dsnrsl",  type = str, metavar = "", required = False)
 parser.add_argument("-dsnrl", "--dsdnrl",  type = str, metavar = "", required = False)
+parser.add_argument("-pimp", "--pimp",  type = str, metavar = "", required = False)
 parser.add_argument("-h2", "--h2",  type = str, metavar = "", required = False)
 parser.add_argument("-rd", "--rdf4j",  type = str, metavar = "", required = False)
 parser.add_argument("-db", "--dubbo",  type = str, metavar = "", required = False)
@@ -234,7 +235,7 @@ class RQ(Setup):
 			commit += 1
 		return mse_posneg, mae_posneg, rmsle_posneg, avg_posneg, commits
 	
-	def plot_newRQ(self):
+	def _plot_newRQ(self):
 		# revisit
 		fig, ax = plt.subplots()
 		mse_posneg, mae_posneg, rmsle_posneg, avg_posneg, commits = self.performance_impact()
@@ -420,6 +421,8 @@ class RQ(Setup):
 			self._dsd_nr()
 		elif args.dsdnrl:
 			print(self._dsd_nr_ssl())
+		elif args.pimp:
+			self._plot_newRQ()
 		elif args.h2:
 			print(self._h2())
 		elif args.rdf4j:

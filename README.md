@@ -5,13 +5,13 @@
 
 <p align="center"> <img src="..doc/pace1.jpeg" width="95%"> </p>
 
-Official implementation of ```PACE: Program Analysis Framework for Continuous Performance Prediction```   Currently Under Revision at ACM Transactions on Software Engineering and Methodology 2023.
+Official implementation of ```PACE: Program Analysis Framework for Continuous Performance Prediction```   ACM Transactions on Software Engineering and Methodology (TOSEM) 2023.
 
 ## Abstract
 > Software development teams establish elaborate continuous integration pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. This paper presents PACE, a program analysis framework that provides continuous feedback on the performance impact of pending code updates. We design performance microbenchmarks by mapping the execution time of functional test cases given a code update. We map microbenchmarks to code stylometry features and feed them to predictors for performance predictions. Our experiments achieved significant performance in predicting code performance, outperforming current state-of-the-art by 75\% on neural-represented code stylometry features.
 <hr>
 
-> Preprint is available [HERE](/..doc/preprint.pdf)
+> Preprint is available [HERE](/..doc/preprint-r1.pdf)
 
 <hr>
 Artifact Author: Chidera Biringa
@@ -130,7 +130,12 @@ $ python3.9 experiments.py -knp1=knp1
 $ python3.9 experiments.py -klp1=klp1  
 ```
 
-RQ2: ```What is the cost of selecting and representing code stylometry features?```
+RQ2: ```What is the performance impact of commit at cn-1 given cn code update?```
+```
+$ python3.9 experiments.py -pimp=pimp  
+```
+
+RQ3: ```What is the cost of selecting and representing code stylometry features?```
 
 ```Throughput (Command 1) and Latency (Command 2)``` 
 
@@ -174,7 +179,7 @@ $ python3.9 experiments.py -dsnr=dsnr
 $ python3.9 experiments.py -dsnrsl=dsnrsl
 ```
 
-RQ3: ```How does PACE perform in comparison with state-of-the-art performance prediction approach in the literature?```
+RQ4: ```How does PACE perform in comparison with state-of-the-art performance prediction approach in the literature?```
   - H2
 ```
 $ python3.9 experiments.py -h2=h2
