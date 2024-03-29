@@ -27,7 +27,7 @@ class FreqStyle(HandleRepo):
 	def _node_selection(self, tree, features):
 		return self.__len__([True for _, node in tree if node.__class__.__name__ in features])
 
-	def __call__(self) -> typing.Dict:
+	def _call(self) -> typing.Dict:
 		statements, expressions, controls, invocations, declarations = ([] for _ in range(5))
 		source_files = self.get_project(self.project)
 		trees, _ = self.get_trees(source_files)
@@ -56,3 +56,8 @@ class FreqStyle(HandleRepo):
 			"syntactic" : (numstat_stmts, numstat_expr, numstat_ctrls),
 			"lexical" : (numstat_invctn, numstat_dclrtn)
 		}
+	
+
+if __name__ == "__main__":
+	path = "/Users/Gabriel/Documents/Masters-Thesis/DataSource/sc1"
+	print(FreqStyle(path)._call())

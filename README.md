@@ -11,7 +11,17 @@ Official implementation of ```PACE: Program Analysis Framework for Continuous Pe
 > Software development teams establish elaborate continuous integration pipelines containing automated test cases to accelerate the development process of software. Automated tests help to verify the correctness of code modifications decreasing the response time to changing requirements. However, when the software teams do not track the performance impact of pending modifications, they may need to spend considerable time refactoring existing code. This paper presents PACE, a program analysis framework that provides continuous feedback on the performance impact of pending code updates. We design performance microbenchmarks by mapping the execution time of functional test cases given a code update. We map microbenchmarks to code stylometry features and feed them to predictors for performance predictions. Our experiments achieved significant performance in predicting code performance, outperforming current state-of-the-art by 75\% on neural-represented code stylometry features.
 <hr>
 
-> Preprint is available [HERE](/..doc/preprint-r1.pdf)
+
+Cite:
+```
+@article{biringa2023pace,
+  title={PACE: A Program Analysis Framework for Continuous Performance Prediction},
+  author={Biringa, Chidera and Kul, G{\"o}khan},
+  journal={ACM Transactions on Software Engineering and Methodology},
+  year={2023},
+  publisher={ACM New York, NY}
+}
+```
 
 <hr>
 Artifact Author: Chidera Biringa

@@ -31,6 +31,7 @@ class HandleRepo:
 		with open(data, "rb") as file:
 			loaded = pickle.load(file)
 		return loaded
+	
 
 	def get_trees(self, source_files) -> CompilationUnit:
 		trees = []
@@ -77,3 +78,16 @@ class HandleRepo:
 		else:
 			runtime: pd.DataFrame = pd.concat([pd.read_csv(runtime_path[0]), pd.read_csv(runtime_path[1])])
 			return pd.DataFrame({self.config.file_name: runtime[self.config.test_file], self.config.runtime_ms:runtime[self.config.runtime_c_ms]})
+	
+	def get_sc(self):
+		source_files = pd.read_csv("/Users/Gabriel/Projects/PACE/datasets/addressbook/addressbook.csv")
+		return list(source_files["sourcecode"])[:5]
+
+
+
+
+if __name__ == "__main__":
+	HC = HandleRepo()
+	sourcecode = HC.get_sc()
+	trees = HC.get_trees(sourcecode)
+	print(trees)
